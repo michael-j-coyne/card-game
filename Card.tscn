@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://ciqke8qkkjmht"]
+
+[ext_resource type="Script" path="res://Card.gd" id="1_0tftp"]
+[ext_resource type="Texture2D" uid="uid://qxhs4cegj7e0" path="res://assets/blank_card.png" id="1_agvw2"]
+[ext_resource type="Script" path="res://Background.gd" id="3_18d2c"]
+
+[node name="Card" type="MarginContainer"]
+offset_left = 171.0
+offset_top = 157.0
+offset_right = 219.0
+offset_bottom = 226.5
+script = ExtResource("1_0tftp")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(277, 547)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_agvw2")
+centered = false
+script = ExtResource("3_18d2c")
