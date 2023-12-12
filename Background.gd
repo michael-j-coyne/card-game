@@ -12,5 +12,3 @@ func _input(event):
 				
 		if not event.pressed and dragging:
 			dragging = false
-		
-
