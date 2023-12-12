@@ -17,9 +17,9 @@ const Card = preload('res://Card.tscn')
 # maybe the card_spread_y and base_rotation_degrees should scale based on the value of
 # calculate_card_spread_x to avoid the situation with three cards
 const max_spread := 800.0
-const card_spread_y:float = 50.0
-const card_speed:float = 500.0
-const base_rotation_degrees = 5
+const card_spread_y : float = 50.0
+const card_speed : float = 500.0
+const base_rotation_degrees = 6
 
 func calculate_card_spread_x(num_cards_in_hand: int, card_width: int) -> float:
 	const overlap = 30
@@ -31,7 +31,6 @@ func calculate_card_spread_x(num_cards_in_hand: int, card_width: int) -> float:
 # what does 'hand ratio' mean exactly?
 func hand_ratio(card, hand_size: int):
 	if hand_size < 2: return 0.5
-		
 	return float(card.get_index()) / float(hand_size - 1)
 
 func fan_cards():
@@ -52,10 +51,13 @@ func fan_cards():
 func _process(delta:float) -> void:
 	fan_cards()
 
+# this is temporary testing code
 func _input(event):
 	if event is InputEventMouseButton and event.pressed:
 		print("mouse button event at ", event.position)
-		add_child(Card.instantiate())
+		var card_to_add = Card.instantiate()
+		add_child(card_to_add)
+		#card_to_add.position
 
 func _compute_pos(hand_ratio : float, card_spread_x : int) -> Vector2:
 	var relative_x = horizontal_spread_curve.sample(hand_ratio) * card_spread_x
