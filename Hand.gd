@@ -14,21 +14,19 @@ const Card = preload('res://Card.tscn')
 @export var rotation_curve := \
 	preload("res://UI/resources/hand_rotation_curve.tres")
 
-# maybe the card_spread_y and base_rotation_degrees should scale based on the value of
+# maybe the CARD_SPREAD_Y and BASE_ROTATION_DEGREES should scale based on the value of
 # _compute_card_spread_x to avoid the situation with three cards
-const max_spread := 800.0
-const card_spread_y : float = 45.0
-const card_speed : float = 500.0
-const base_rotation_degrees = 6
-const ANIMATION_SPEED = 0.25
-const CARD_SPAWNPOINT = Vector2(1000, 0)
-const base_rotation_degrees = 6.5
+const MAX_SPREAD := 800.0
+const CARD_SPREAD_Y : float = 45.0
+const BASE_ROTATION_DEGREES = 6.5
+const ANIMATION_DURATION_SECONDS = 0.25
+const CARD_SPAWN_POS = Vector2(1000, 0)
 
 func _compute_card_spread_x(num_cards_in_hand: int, card_width: int) -> float:
 	const overlap = 30
 	# Why do we multiply by 0.25? What is 0.25?
 	var spread = num_cards_in_hand * (card_width - overlap) * 0.25
-	return spread if spread < max_spread else max_spread
+	return spread if spread < MAX_SPREAD else MAX_SPREAD
 
 # type annotation for card?
 # what does 'hand ratio' mean exactly?
@@ -46,12 +44,10 @@ func _fan_cards():
 		var ratio = _hand_ratio(card, num_cards_in_hand)
 		var card_spread_x = _compute_card_spread_x(num_cards_in_hand, card.get_width())
 		var pos := _compute_pos(ratio, card_spread_x)
-		var rotation_degrees = rotation_curve.sample(ratio) * base_rotation_degrees
+		var rotation_degrees = rotation_curve.sample(ratio) * BASE_ROTATION_DEGREES
 		
-		tween.tween_property(card, "position", pos, ANIMATION_SPEED)
-		tween.tween_property(card, "rotation_degrees", rotation_degrees, ANIMATION_SPEED)
-		
-		
+		tween.tween_property(card, "position", pos, ANIMATION_DURATION_SECONDS)
+		tween.tween_property(card, "rotation_degrees", rotation_degrees, ANIMATION_DURATION_SECONDS)
 
 func _process(delta:float) -> void:
 	_fan_cards()
@@ -61,13 +57,13 @@ func _input(event):
 	if event is InputEventMouseButton and event.pressed:
 		var card_to_add = Card.instantiate()
 		add_child(card_to_add)
-		card_to_add.position = CARD_SPAWNPOINT
+		card_to_add.position = CARD_SPAWN_POS
 
 func _compute_pos(_hand_ratio : float, card_spread_x : int) -> Vector2:
 	var relative_x = horizontal_spread_curve.sample(_hand_ratio) * card_spread_x
 	# why do I have to multiply by -1 again?
 	# I do this so the curve is an upside down U instead of a regular U, but why do I need to do it?
-	var relative_y = vertical_spread_curve.sample(_hand_ratio) * card_spread_y * -1
+	var relative_y = vertical_spread_curve.sample(_hand_ratio) * CARD_SPREAD_Y * -1
 	return Vector2(relative_x, relative_y)
 
 # Called when the node enters the scene tree for the first time.
