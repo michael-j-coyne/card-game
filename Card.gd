@@ -1,8 +1,9 @@
 extends Node2D
 
 func get_width() -> int:
-	return $Background.texture.get_width() * $Background.scale.x
+	var bg = get_node("Area2D/Background")
+	return bg.texture.get_width() * bg.scale.x
 
 func get_height() -> int:
-	return $Background.texture.get_height() * $Background.scale.y
-
+	var bg = get_node("Area2D/Background")
+	return bg.texture.get_height() * bg.scale.y
