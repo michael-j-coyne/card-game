@@ -29,7 +29,9 @@ func _compute_card_spread_x(num_cards_in_hand: int, card_width: int) -> float:
 	return spread if spread < MAX_SPREAD else MAX_SPREAD
 
 # type annotation for card?
-# what does 'hand ratio' mean exactly?
+# a 'hand ratio' is a value between 0 and 1 which is related to the position of the card
+# in the hand. The leftmost card receives a value of 0 and the rightmostcard receives a value
+# of 1, the middle card is 0.5
 func _hand_ratio(card, hand_size: int):
 	if hand_size < 2: return 0.5
 	return float(card.get_index()) / float(hand_size - 1)
