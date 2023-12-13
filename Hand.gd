@@ -48,12 +48,12 @@ func _fan_cards():
 		var ratio = _hand_ratio(card, num_cards_in_hand)
 		var card_spread_x = _compute_card_spread_x(num_cards_in_hand, card.get_width())
 		var pos := _compute_pos(ratio, card_spread_x)
-		var rotation_degrees = rotation_curve.sample(ratio) * BASE_ROTATION_DEGREES
+		var rotation_amount_degrees = rotation_curve.sample(ratio) * BASE_ROTATION_DEGREES
 		
 		tween.tween_property(card, "position", pos, ANIMATION_DURATION_SECONDS)
-		tween.tween_property(card, "rotation_degrees", rotation_degrees, ANIMATION_DURATION_SECONDS)
+		tween.tween_property(card, "rotation_degrees", rotation_amount_degrees, ANIMATION_DURATION_SECONDS)
 
-func _process(delta:float) -> void:
+func _process(_delta : float) -> void:
 	_fan_cards()
 
 # this is temporary testing code
@@ -63,11 +63,11 @@ func _input(event):
 		add_child(card_to_add)
 		card_to_add.position = CARD_SPAWN_POS
 
-func _compute_pos(_hand_ratio : float, card_spread_x : int) -> Vector2:
-	var relative_x = horizontal_spread_curve.sample(_hand_ratio) * card_spread_x
+func _compute_pos(hand_ratio : float, card_spread_x : int) -> Vector2:
+	var relative_x = horizontal_spread_curve.sample(hand_ratio) * card_spread_x
 	# why do I have to multiply by -1 again?
 	# I do this so the curve is an upside down U instead of a regular U, but why do I need to do it?
-	var relative_y = vertical_spread_curve.sample(_hand_ratio) * CARD_SPREAD_Y * -1
+	var relative_y = vertical_spread_curve.sample(hand_ratio) * CARD_SPREAD_Y * -1
 	return Vector2(relative_x, relative_y)
 
 # Called when the node enters the scene tree for the first time.
