@@ -20,6 +20,8 @@ const max_spread := 800.0
 const card_spread_y : float = 50.0
 const card_speed : float = 500.0
 const base_rotation_degrees = 6
+const ANIMATION_SPEED = 0.25
+const CARD_SPAWNPOINT = Vector2(1000, 0)
 
 func calculate_card_spread_x(num_cards_in_hand: int, card_width: int) -> float:
 	const overlap = 30
@@ -34,10 +36,10 @@ func hand_ratio(card, hand_size: int):
 	return float(card.get_index()) / float(hand_size - 1)
 
 func fan_cards():
-	var tween = create_tween()
-	tween.set_parallel(true)
 	var cards_in_hand := get_children()
 	var num_cards_in_hand := cards_in_hand.size()
+	var tween = create_tween()
+	tween.set_parallel(true)
 	
 	for card in cards_in_hand:
 		var card_spread_x = calculate_card_spread_x(num_cards_in_hand, card.get_width())
@@ -45,8 +47,8 @@ func fan_cards():
 		var rotation_degrees = \
 			rotation_curve.sample(hand_ratio(card, num_cards_in_hand)) * base_rotation_degrees
 		
-		tween.tween_property(card, "position", pos, 0.5)
-		tween.tween_property(card, "rotation_degrees", rotation_degrees, 0.5)
+		tween.tween_property(card, "position", pos, ANIMATION_SPEED)
+		tween.tween_property(card, "rotation_degrees", rotation_degrees, ANIMATION_SPEED)
 
 func _process(delta:float) -> void:
 	fan_cards()
@@ -54,10 +56,9 @@ func _process(delta:float) -> void:
 # this is temporary testing code
 func _input(event):
 	if event is InputEventMouseButton and event.pressed:
-		print("mouse button event at ", event.position)
 		var card_to_add = Card.instantiate()
 		add_child(card_to_add)
-		#card_to_add.position
+		card_to_add.position = CARD_SPAWNPOINT
 
 func _compute_pos(hand_ratio : float, card_spread_x : int) -> Vector2:
 	var relative_x = horizontal_spread_curve.sample(hand_ratio) * card_spread_x
