@@ -51,7 +51,6 @@ func _fan_cards():
 		tween.tween_property(card, "position", pos, ANIMATION_SPEED)
 		tween.tween_property(card, "rotation_degrees", rotation_degrees, ANIMATION_SPEED)
 		
-		print("idx is ", card.get_index(), " and hand ratio is ", ratio, " and pos is ", pos, " and rotation is ", rotation_degrees)
 		
 
 func _process(delta:float) -> void:
