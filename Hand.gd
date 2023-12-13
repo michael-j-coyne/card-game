@@ -17,11 +17,12 @@ const Card = preload('res://Card.tscn')
 # maybe the card_spread_y and base_rotation_degrees should scale based on the value of
 # _compute_card_spread_x to avoid the situation with three cards
 const max_spread := 800.0
-const card_spread_y : float = 50.0
+const card_spread_y : float = 45.0
 const card_speed : float = 500.0
 const base_rotation_degrees = 6
 const ANIMATION_SPEED = 0.25
 const CARD_SPAWNPOINT = Vector2(1000, 0)
+const base_rotation_degrees = 6.5
 
 func _compute_card_spread_x(num_cards_in_hand: int, card_width: int) -> float:
 	const overlap = 30
