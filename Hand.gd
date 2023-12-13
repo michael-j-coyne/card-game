@@ -37,6 +37,8 @@ func _hand_ratio(card, hand_size: int):
 	return float(card.get_index()) / float(hand_size - 1)
 
 func _fan_cards():
+	if not get_children(): return
+	
 	var cards_in_hand := get_children()
 	var num_cards_in_hand := cards_in_hand.size()
 	var tween = create_tween()
