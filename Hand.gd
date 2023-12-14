@@ -47,18 +47,14 @@ func _fan_cards():
 	if not get_children(): return
 	
 	var cards_in_hand := get_children()
-	var num_cards_in_hand := cards_in_hand.size()
-	var tween = create_tween()
+	var tween := create_tween()
 	tween.set_parallel(true)
 	
 	for card in cards_in_hand:
-		var ratio = get_hand_ratio(card)
-		var card_spread_x = get_card_spread_x()
-		var pos := _compute_pos(ratio, card_spread_x)
-		var rotation_amount_degrees = rotation_curve.sample(ratio) * BASE_ROTATION_DEGREES
-		
+		var pos := get_card_default_pos(card)
+		var rotation_amt := rotation_curve.sample(get_hand_ratio(card)) * BASE_ROTATION_DEGREES
 		tween.tween_property(card, "position", pos, ANIMATION_DURATION_SECONDS)
-		tween.tween_property(card, "rotation_degrees", rotation_amount_degrees, ANIMATION_DURATION_SECONDS)
+		tween.tween_property(card, "rotation_degrees", rotation_amt, ANIMATION_DURATION_SECONDS)
 
 func _process(_delta : float) -> void:
 	_fan_cards()
@@ -72,10 +68,11 @@ func _input(event):
 
 func _compute_pos(hand_ratio : float, card_spread_x : int) -> Vector2:
 	var relative_x = horizontal_spread_curve.sample(hand_ratio) * card_spread_x
-	# why do I have to multiply by -1 again?
-	# I do this so the curve is an upside down U instead of a regular U, but why do I need to do it?
 	var relative_y = vertical_spread_curve.sample(hand_ratio) * CARD_SPREAD_Y * -1
 	return Vector2(relative_x, relative_y)
+
+func get_card_default_pos(card: Card) -> Vector2:
+	return _compute_pos(get_hand_ratio(card), get_card_spread_x())
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
