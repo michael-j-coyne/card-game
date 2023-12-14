@@ -1,4 +1,4 @@
-extends Node2D
+class_name Card extends Node2D
 
 func get_width() -> int:
 	var bg = get_node("Area2D/Background")

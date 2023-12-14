@@ -1,6 +1,6 @@
 extends Node2D
 
-const Card = preload('res://Card.tscn')
+const CardScene = preload('res://Card.tscn')
 
 # TODO: Make cards spawn to either the left or right, where the 'deck' is located,
 # currently they spawn in the middle of the hand at the hand 'origin'
@@ -59,7 +59,7 @@ func _process(_delta : float) -> void:
 # this is temporary testing code
 func _input(event):
 	if event is InputEventMouseButton and event.pressed:
-		var card_to_add = Card.instantiate()
+		var card_to_add = CardScene.instantiate()
 		add_child(card_to_add)
 		card_to_add.position = CARD_SPAWN_POS
 
