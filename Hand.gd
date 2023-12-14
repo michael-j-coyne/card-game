@@ -33,13 +33,15 @@ func get_card_spread_x() -> float:
 	var card = CardScene.instantiate()
 	return _compute_card_spread_x(get_child_count(), card.get_width())
 
-# type annotation for card?
 # a 'hand ratio' is a value between 0 and 1 which is related to the position of the card
 # in the hand. The leftmost card receives a value of 0 and the rightmostcard receives a value
 # of 1, the middle card is 0.5
-func _hand_ratio(card, hand_size: int):
+func _compute_hand_ratio(card_index: int, hand_size: int) -> float:
 	if hand_size < 2: return 0.5
-	return float(card.get_index()) / float(hand_size - 1)
+	return float(card_index) / float(hand_size - 1)
+	
+func get_hand_ratio(card: Card) -> float:
+	return _compute_hand_ratio(card.get_index(), get_child_count())
 
 func _fan_cards():
 	if not get_children(): return
@@ -50,7 +52,7 @@ func _fan_cards():
 	tween.set_parallel(true)
 	
 	for card in cards_in_hand:
-		var ratio = _hand_ratio(card, num_cards_in_hand)
+		var ratio = get_hand_ratio(card)
 		var card_spread_x = get_card_spread_x()
 		var pos := _compute_pos(ratio, card_spread_x)
 		var rotation_amount_degrees = rotation_curve.sample(ratio) * BASE_ROTATION_DEGREES
