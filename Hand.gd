@@ -22,11 +22,16 @@ const BASE_ROTATION_DEGREES = 6.5
 const ANIMATION_DURATION_SECONDS = 0.25
 const CARD_SPAWN_POS = Vector2(1000, 0)
 
+# Compute the horizontal space that the hand will occupy
 func _compute_card_spread_x(num_cards_in_hand: int, card_width: int) -> float:
 	const overlap = 30
 	# Why do we multiply by 0.25? What is 0.25?
 	var spread = num_cards_in_hand * (card_width - overlap) * 0.25
 	return spread if spread < MAX_SPREAD else MAX_SPREAD
+
+func get_card_spread_x() -> float:
+	var card = CardScene.instantiate()
+	return _compute_card_spread_x(get_child_count(), card.get_width())
 
 # type annotation for card?
 # a 'hand ratio' is a value between 0 and 1 which is related to the position of the card
@@ -46,7 +51,7 @@ func _fan_cards():
 	
 	for card in cards_in_hand:
 		var ratio = _hand_ratio(card, num_cards_in_hand)
-		var card_spread_x = _compute_card_spread_x(num_cards_in_hand, card.get_width())
+		var card_spread_x = get_card_spread_x()
 		var pos := _compute_pos(ratio, card_spread_x)
 		var rotation_amount_degrees = rotation_curve.sample(ratio) * BASE_ROTATION_DEGREES
 		
