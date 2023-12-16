@@ -30,8 +30,7 @@ func _compute_card_spread_x(num_cards_in_hand: int, card_width: int) -> float:
 	var spread = num_cards_in_hand * (card_width - overlap) * 0.25
 	return spread if spread < MAX_SPREAD else MAX_SPREAD
 
-func get_card_spread_x() -> float:
-	var card = CardScene.instantiate()
+func get_card_spread_x(card: Card) -> float:
 	return _compute_card_spread_x(get_child_count(), card.get_width())
 
 # a 'hand ratio' is a value between 0 and 1 which is related to the position of the card
@@ -120,7 +119,7 @@ func _compute_pos(hand_ratio: float, card_spread_x: int) -> Vector2:
 	return Vector2(relative_x, relative_y)
 
 func get_card_default_pos(card: Card) -> Vector2:
-	return _compute_pos(get_hand_ratio(card), get_card_spread_x())
+	return _compute_pos(get_hand_ratio(card), get_card_spread_x(card))
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
