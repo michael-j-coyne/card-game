@@ -104,15 +104,18 @@ func get_hovered_card() -> Card:
 	var highest_index = func(max, val): return val if val.get_index() > max.get_index() else max
 	var rightmost_card = hovered_cards.reduce(highest_index)
 	return rightmost_card
+	
+func add_card_to_hand(card: Card):
+	add_child(card)
+	card.position = CARD_SPAWN_POS
+	card.mouse_entered.connect(_on_mouse_entered_card)
+	card.mouse_exited.connect(_on_mouse_exited_card)
 
 # this is temporary testing code
 func _input(event):
 	if event is InputEventMouseButton and event.pressed:
 		var card_to_add = CardScene.instantiate()
-		add_child(card_to_add)
-		card_to_add.position = CARD_SPAWN_POS
-		card_to_add.mouse_entered.connect(_on_mouse_entered_card)
-		card_to_add.mouse_exited.connect(_on_mouse_exited_card)
+		add_card_to_hand(card_to_add)
 
 func _compute_pos(hand_ratio: float, card_spread_x: int) -> Vector2:
 	var relative_x = horizontal_spread_curve.sample(hand_ratio) * card_spread_x
