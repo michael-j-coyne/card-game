@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dxf6aoalbb0ip"]
 
-[ext_resource type="PackedScene" uid="uid://bcyy6s0bdd2ri" path="res://hand.tscn" id="1_5l6nr"]
-[ext_resource type="PackedScene" uid="uid://dw86m8e7hpr6d" path="res://play_zone.tscn" id="2_4f6ce"]
+[ext_resource type="PackedScene" uid="uid://bcyy6s0bdd2ri" path="res://Hand.tscn" id="1_5l6nr"]
+[ext_resource type="PackedScene" uid="uid://dw86m8e7hpr6d" path="res://PlayZone.tscn" id="2_4f6ce"]
 
 [node name="Game" type="Node"]
 
