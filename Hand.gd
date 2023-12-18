@@ -59,29 +59,29 @@ func _fan_cards():
 
 func _process(_delta : float) -> void:
 	_fan_cards()
-	animate_card_hover()
+	animate_card_hover(get_hovered_card())
 
 # This function feels overworked to me. Let's see if we can split it up.
-func animate_card_hover() -> void:
-	var hovered_card := get_hovered_card()
-	if not hovered_card: return
+func animate_card_hover(card_to_animate: Card) -> void:
+	#var card_to_animate := get_hovered_card()
+	if not card_to_animate: return
 	
 	# This feels hacky to me... but it works for now.
-	var other_cards := get_children().filter(func(card): return card != hovered_card)
+	var other_cards := get_children().filter(func(card): return card != card_to_animate)
 	other_cards.map(scale_card_to_default_size)
 	
-	hovered_card.z_index = HOVERED_CARD_Z_INDEX
+	card_to_animate.z_index = HOVERED_CARD_Z_INDEX
 	const duration_seconds = CARD_HOVER_ANIMATION_DURATION_SECONDS
 	
 	var base_screen_size = get_viewport().content_scale_size
-	var y_pos = base_screen_size.y - (0.5 * hovered_card.get_height() * CARD_EXPANSION_FACTOR.y)
-	var hovered_pos = to_local(Vector2(to_global(get_card_default_pos(hovered_card)).x, y_pos))
+	var y_pos = base_screen_size.y - (0.5 * card_to_animate.get_height() * CARD_EXPANSION_FACTOR.y)
+	var hovered_pos = to_local(Vector2(to_global(get_card_default_pos(card_to_animate)).x, y_pos))
 	
 	var tween = create_tween()
 	tween.set_parallel(true)
-	tween.tween_property(hovered_card, "scale", CARD_EXPANSION_FACTOR, duration_seconds)
-	tween.tween_property(hovered_card, "rotation_degrees", 0, duration_seconds)
-	tween.tween_property(hovered_card, "position", hovered_pos, duration_seconds)
+	tween.tween_property(card_to_animate, "scale", CARD_EXPANSION_FACTOR, duration_seconds)
+	tween.tween_property(card_to_animate, "rotation_degrees", 0, duration_seconds)
+	tween.tween_property(card_to_animate, "position", hovered_pos, duration_seconds)
 
 func scale_card_to_default_size(card: Card) -> void:
 	if not card: return
