@@ -16,7 +16,6 @@ func get_height() -> int:
 
 func init(card_name: String):
 	var path = str("res://assets/cards/", card_name ,".png")
-	var texture = load(path)
 	set_texture(path)
 	
 	# hack!
@@ -35,6 +34,6 @@ func _on_area_2d_mouse_entered():
 func _on_area_2d_mouse_exited():
 	mouse_exited.emit(self)
 
-func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int):
+func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		card_selected.emit(self)

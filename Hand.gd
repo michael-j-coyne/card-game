@@ -112,7 +112,8 @@ func _on_card_selected(card: Card):
 # I found out its called an "option" type or a "maybe" type.
 func get_hovered_card() -> Card:
 	if not hovered_cards: return
-	var highest_index = func(max, val): return val if val.get_index() > max.get_index() else max
+	var highest_index = func(max_val, val):
+		return val if val.get_index() > max_val.get_index() else max_val
 	var rightmost_card = hovered_cards.reduce(highest_index)
 	return rightmost_card
 
@@ -135,7 +136,7 @@ func _input(event):
 		var card_to_add = generate_random_card()
 		add_card_to_hand(card_to_add)
 
-func _compute_pos(hand_ratio: float, card_spread_x: int) -> Vector2:
+func _compute_pos(hand_ratio: float, card_spread_x: float) -> Vector2:
 	var relative_x = horizontal_spread_curve.sample(hand_ratio) * card_spread_x
 	var relative_y = vertical_spread_curve.sample(hand_ratio) * CARD_SPREAD_Y * -1
 	return Vector2(relative_x, relative_y)
