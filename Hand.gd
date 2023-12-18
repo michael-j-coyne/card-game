@@ -22,6 +22,7 @@ const DEFAULT_CARD_Z_INDEX = 0
 const HOVERED_CARD_Z_INDEX = 1
 const SPREAD_FACTOR = 0.33
 
+var rng = RandomNumberGenerator.new()
 var hovered_cards : Array[Card] = []
 
 # Compute the horizontal space that the hand will occupy
@@ -104,7 +105,13 @@ func get_hovered_card() -> Card:
 	var highest_index = func(max, val): return val if val.get_index() > max.get_index() else max
 	var rightmost_card = hovered_cards.reduce(highest_index)
 	return rightmost_card
-	
+
+func generate_random_card() -> Card:
+	var card_name := str(rng.randi_range(1,10))
+	var card := CardScene.instantiate()
+	card.init(card_name)
+	return card
+
 func add_card_to_hand(card: Card):
 	add_child(card)
 	card.position = CARD_SPAWN_POS
@@ -114,7 +121,7 @@ func add_card_to_hand(card: Card):
 # this is temporary testing code
 func _input(event):
 	if event.is_action_pressed("ui_accept"):
-		var card_to_add = CardScene.instantiate()
+		var card_to_add = generate_random_card()
 		add_card_to_hand(card_to_add)
 
 func _compute_pos(hand_ratio: float, card_spread_x: int) -> Vector2:
