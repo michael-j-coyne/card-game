@@ -85,7 +85,7 @@ func animate_card_hover() -> void:
 func scale_card_to_default_size(card: Card) -> void:
 	if not card: return
 	var tween = create_tween()
-	tween.tween_property(card, "scale", Vector2(1, 1), 0.125) # .125 magic #
+	tween.tween_property(card, "scale", Vector2(1, 1), CARD_HOVER_ANIMATION_DURATION_SECONDS)
 
 # I may want to consider using an input signal instead of an entered
 # / exited signal because the input signal only triggers on unhandled input
