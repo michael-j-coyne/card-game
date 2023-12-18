@@ -113,7 +113,7 @@ func add_card_to_hand(card: Card):
 
 # this is temporary testing code
 func _input(event):
-	if event is InputEventMouseButton and event.pressed:
+	if event.is_action_pressed("ui_accept"):
 		var card_to_add = CardScene.instantiate()
 		add_card_to_hand(card_to_add)
 
