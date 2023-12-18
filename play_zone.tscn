@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://dw86m8e7hpr6d"]
+
+[ext_resource type="Texture2D" uid="uid://stf4xq7ijxhk" path="res://assets/grey-rectangle.jpeg" id="1_amct7"]
+
+[node name="PlayZone" type="Node2D"]
+position = Vector2(729, 432)
+metadata/_edit_group_ = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+scale = Vector2(0.217778, 0.553333)
+texture = ExtResource("1_amct7")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+scale = Vector2(0.217778, 0.553333)
+polygon = PackedVector2Array(900, 450, -900, 450, -900, -450, 900, -450)

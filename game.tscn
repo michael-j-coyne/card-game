@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxf6aoalbb0ip"]
+
+[ext_resource type="PackedScene" uid="uid://bcyy6s0bdd2ri" path="res://hand.tscn" id="1_5l6nr"]
+[ext_resource type="PackedScene" uid="uid://dw86m8e7hpr6d" path="res://play_zone.tscn" id="2_4f6ce"]
+
+[node name="Game" type="Node"]
+
+[node name="Hand" parent="." instance=ExtResource("1_5l6nr")]
+
+[node name="PlayZone" parent="." instance=ExtResource("2_4f6ce")]
+position = Vector2(325, 350)
+
+[node name="PlayZone3" parent="." instance=ExtResource("2_4f6ce")]
+position = Vector2(1589, 350)
+
+[node name="PlayZone2" parent="." instance=ExtResource("2_4f6ce")]
+position = Vector2(945, 350)
