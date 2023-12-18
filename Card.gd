@@ -2,6 +2,7 @@ class_name Card extends Node2D
 
 signal mouse_entered(card: Card)
 signal mouse_exited(card: Card)
+signal card_selected(card: Card)
 
 var _value = 0
 
@@ -33,3 +34,7 @@ func _on_area_2d_mouse_entered():
 	
 func _on_area_2d_mouse_exited():
 	mouse_exited.emit(self)
+
+func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		card_selected.emit(self)

@@ -5,6 +5,12 @@
 
 [node name="Game" type="Node"]
 
+[node name="GameBackdrop" type="ColorRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 1
+color = Color(0.643137, 1, 0.996078, 1)
+
 [node name="Hand" parent="." instance=ExtResource("1_5l6nr")]
 
 [node name="PlayZone" parent="." instance=ExtResource("2_4f6ce")]
@@ -15,3 +21,5 @@ position = Vector2(1589, 350)
 
 [node name="PlayZone2" parent="." instance=ExtResource("2_4f6ce")]
 position = Vector2(945, 350)
+
+[connection signal="gui_input" from="GameBackdrop" to="Hand" method="_on_game_backdrop_input"]

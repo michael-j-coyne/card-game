@@ -24,6 +24,7 @@ const SPREAD_FACTOR = 0.33
 
 var rng = RandomNumberGenerator.new()
 var hovered_cards : Array[Card] = []
+var selected_card = null
 
 # Compute the horizontal space that the hand will occupy
 func _compute_card_spread_x(num_cards_in_hand: int, card_width: int) -> float:
@@ -52,6 +53,16 @@ func _fan_cards():
 	tween.set_parallel(true)
 
 	for card in cards_in_hand:
+		# I am very unsure if scale_card_to_default_size should go here.
+		# I also don't know if its a good idea to reset the z_index here.
+		# That's speaking from a design standpoint. From a practical standpoint, it works for now.
+		# Perhaps this function isn't just 'fanning cards' its also 'resetting' them.
+		
+		# resetting
+		scale_card_to_default_size(card)
+		card.z_index = DEFAULT_CARD_Z_INDEX
+		
+		# fanning
 		var pos := get_card_default_pos(card)
 		var rotation_amt := rotation_curve.sample(get_hand_ratio(card)) * BASE_ROTATION_DEGREES
 		tween.tween_property(card, "position", pos, duration_seconds)
@@ -59,16 +70,15 @@ func _fan_cards():
 
 func _process(_delta : float) -> void:
 	_fan_cards()
-	animate_card_hover(get_hovered_card())
+	var hovered_card = get_hovered_card()
+	if not selected_card and hovered_card:
+		animate_card_hover(hovered_card)
+	elif selected_card:
+		animate_card_hover(selected_card)
 
-# This function feels overworked to me. Let's see if we can split it up.
+# this isn't just the card hover animation, its also the card select animation (or part of it)
 func animate_card_hover(card_to_animate: Card) -> void:
-	#var card_to_animate := get_hovered_card()
 	if not card_to_animate: return
-	
-	# This feels hacky to me... but it works for now.
-	var other_cards := get_children().filter(func(card): return card != card_to_animate)
-	other_cards.map(scale_card_to_default_size)
 	
 	card_to_animate.z_index = HOVERED_CARD_Z_INDEX
 	const duration_seconds = CARD_HOVER_ANIMATION_DURATION_SECONDS
@@ -88,18 +98,18 @@ func scale_card_to_default_size(card: Card) -> void:
 	var tween = create_tween()
 	tween.tween_property(card, "scale", Vector2(1, 1), CARD_HOVER_ANIMATION_DURATION_SECONDS)
 
-# I may want to consider using an input signal instead of an entered
-# / exited signal because the input signal only triggers on unhandled input
 func _on_mouse_entered_card(card: Card):
 	hovered_cards.append(card)
 
 func _on_mouse_exited_card(card: Card):
-	scale_card_to_default_size(card)
-	card.z_index = DEFAULT_CARD_Z_INDEX
 	hovered_cards.erase(card)
+
+func _on_card_selected(card: Card):
+	selected_card = card
 
 # sometimes this function returns nothing... How do I handle this?
 # is there a way to return a maybe(Card)? What would that be called?
+# I found out its called an "option" type or a "maybe" type.
 func get_hovered_card() -> Card:
 	if not hovered_cards: return
 	var highest_index = func(max, val): return val if val.get_index() > max.get_index() else max
@@ -117,6 +127,7 @@ func add_card_to_hand(card: Card):
 	card.position = CARD_SPAWN_POS
 	card.mouse_entered.connect(_on_mouse_entered_card)
 	card.mouse_exited.connect(_on_mouse_exited_card)
+	card.card_selected.connect(_on_card_selected)
 
 # this is temporary testing code
 func _input(event):
@@ -135,3 +146,7 @@ func get_card_default_pos(card: Card) -> Vector2:
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
+
+func _on_game_backdrop_input(event):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		selected_card = null
