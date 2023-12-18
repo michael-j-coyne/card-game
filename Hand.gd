@@ -20,14 +20,14 @@ const CARD_SPAWN_POS = Vector2(1000, 0)
 const CARD_EXPANSION_FACTOR = Vector2(1.5, 1.5)
 const DEFAULT_CARD_Z_INDEX = 0
 const HOVERED_CARD_Z_INDEX = 1
+const SPREAD_FACTOR = 0.33
 
 var hovered_cards : Array[Card] = []
 
 # Compute the horizontal space that the hand will occupy
 func _compute_card_spread_x(num_cards_in_hand: int, card_width: int) -> float:
 	const overlap = 30
-	# Why do we multiply by 0.25? What is 0.25?
-	var spread = num_cards_in_hand * (card_width - overlap) * 0.25
+	var spread = num_cards_in_hand * (card_width - overlap) * SPREAD_FACTOR
 	return spread if spread < MAX_SPREAD else MAX_SPREAD
 
 func get_card_spread_x(card: Card) -> float:
