@@ -48,11 +48,24 @@ func get_hand_ratio(card: Card) -> float:
 func _fan_cards():
 	if not get_children(): return
 	const duration_seconds = CARD_FAN_ANIMATION_DURATION_SECONDS
-	var cards_in_hand := get_children()
+	var hovered_card = get_hovered_card()
+	
+	var filter_func
+	
+	if selected_card:
+		filter_func = func(card): return card != selected_card
+	elif hovered_card:
+		filter_func = func(card): return card != hovered_card
+	else:
+		filter_func = func(card): return true
+	
+	var cards_to_fan := get_children().filter(filter_func)
 	var tween := create_tween()
 	tween.set_parallel(true)
+	
+	print('card to fan are ', cards_to_fan)
 
-	for card in cards_in_hand:
+	for card in cards_to_fan:
 		# I am very unsure if scale_card_to_default_size should go here.
 		# I also don't know if its a good idea to reset the z_index here.
 		# That's speaking from a design standpoint. From a practical standpoint, it works for now.
@@ -68,13 +81,14 @@ func _fan_cards():
 		tween.tween_property(card, "position", pos, duration_seconds)
 		tween.tween_property(card, "rotation_degrees", rotation_amt, duration_seconds)
 
-func _process(_delta : float) -> void:
+func _physics_process(_delta : float) -> void:
 	_fan_cards()
 	var hovered_card = get_hovered_card()
-	if not selected_card and hovered_card:
-		animate_card_hover(hovered_card)
-	elif selected_card:
+	
+	if selected_card:
 		animate_card_hover(selected_card)
+	elif hovered_card:
+		animate_card_hover(hovered_card)
 
 # this isn't just the card hover animation, its also the card select animation (or part of it)
 func animate_card_hover(card_to_animate: Card) -> void:
@@ -92,6 +106,7 @@ func animate_card_hover(card_to_animate: Card) -> void:
 	tween.tween_property(card_to_animate, "scale", CARD_EXPANSION_FACTOR, duration_seconds)
 	tween.tween_property(card_to_animate, "rotation_degrees", 0, duration_seconds)
 	tween.tween_property(card_to_animate, "position", hovered_pos, duration_seconds)
+	print('hovered pos is ', to_global(hovered_pos))
 
 func scale_card_to_default_size(card: Card) -> void:
 	if not card: return
