@@ -34,3 +34,4 @@ offset_right = 703.0
 offset_bottom = 6.0
 
 [connection signal="gui_input" from="GameBackdrop" to="Hand" method="_on_game_backdrop_input"]
+[connection signal="p1_zone_clicked" from="PlayZone" to="." method="_p1_zone_clicked"]

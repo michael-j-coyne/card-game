@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dw86m8e7hpr6d"]
+[gd_scene load_steps=3 format=3 uid="uid://dw86m8e7hpr6d"]
 
+[ext_resource type="Script" path="res://PlayZone.gd" id="1_5ivus"]
 [ext_resource type="Texture2D" uid="uid://stf4xq7ijxhk" path="res://assets/grey-rectangle.jpeg" id="2_ux3rs"]
 
 [node name="PlayZone" type="VBoxContainer"]
@@ -17,6 +18,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 15
+script = ExtResource("1_5ivus")
 
 [node name="P1MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -57,3 +59,6 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/h_separation = 6
 columns = 2
+
+[connection signal="gui_input" from="P1MarginContainer" to="." method="_on_p1_zone_input"]
+[connection signal="gui_input" from="P2MarginContainer" to="." method="_on_p2_zone_input"]

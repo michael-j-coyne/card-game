@@ -26,6 +26,9 @@ var rng = RandomNumberGenerator.new()
 var hovered_cards : Array[Card] = []
 var selected_card = null
 
+func get_selected_card() -> Card:
+	return selected_card
+
 # Compute the horizontal space that the hand will occupy
 func _compute_card_spread_x(num_cards_in_hand: int, card_width: float) -> float:
 	const overlap = 30
@@ -144,6 +147,20 @@ func add_card_to_hand(card: Card):
 	card.mouse_entered_card.connect(_on_mouse_entered_card)
 	card.mouse_exited_card.connect(_on_mouse_exited_card)
 	card.card_selected.connect(_on_card_selected)
+	
+func disconnect_signals(card: Card):
+	var signals = card.get_signal_list();
+	for cur_signal in signals:
+		var conns = card.get_signal_connection_list(cur_signal.name);
+		for cur_conn in conns:
+			cur_conn.signal.disconnect(cur_conn.callable)
+	
+func remove_card(card: Card):
+	if card == selected_card:
+		selected_card = null
+	disconnect_signals(card)
+	#hovered_cards.erase(card)
+	remove_child(card)
 
 # this is temporary testing code
 func _input(event):
