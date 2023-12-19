@@ -21,16 +21,16 @@ offset_top = -374.0
 offset_right = -521.0
 offset_bottom = 26.0
 
-[node name="PlayZone3" parent="." instance=ExtResource("2_4f6ce")]
-offset_left = 403.0
-offset_top = -394.0
-offset_right = 703.0
-offset_bottom = 6.0
-
 [node name="PlayZone2" parent="." instance=ExtResource("2_4f6ce")]
 offset_left = -221.0
 offset_top = -388.0
 offset_right = 79.0
 offset_bottom = 12.0
+
+[node name="PlayZone3" parent="." instance=ExtResource("2_4f6ce")]
+offset_left = 403.0
+offset_top = -394.0
+offset_right = 703.0
+offset_bottom = 6.0
 
 [connection signal="gui_input" from="GameBackdrop" to="Hand" method="_on_game_backdrop_input"]
