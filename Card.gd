@@ -11,10 +11,10 @@ func _ready():
 	pivot_offset = size / 2
 
 func get_width() -> float:
-	return size.x
+	return size.x * scale.x
 
 func get_height() -> float:
-	return size.y
+	return size.y * scale.y
 
 func get_value() -> int:
 	return _value
@@ -29,6 +29,16 @@ func init(card_name: String):
 	# hack!
 	_value = int(card_name)
 	_card_name = card_name
+
+func get_origin_offset():
+	# The positioning origin is the 'actual' topleft of the node, which will look different
+	# From the visual topleft of the node if the scale is not (1, 1)
+	var positioning_origin = Vector2(0, 0)
+	var node_center = pivot_offset
+	var center_to_positioning_origin = positioning_origin - node_center
+	var center_to_visual_topleft = Vector2((size.x * scale.x) / 2.0, (size.y * scale.y) / 2.0) * -1
+	var offset = center_to_positioning_origin - center_to_visual_topleft
+	return offset
 
 func _on_gui_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:

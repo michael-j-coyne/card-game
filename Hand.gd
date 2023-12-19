@@ -99,8 +99,9 @@ func animate_card_hover(card_to_animate: Card) -> void:
 	const duration_seconds = CARD_HOVER_ANIMATION_DURATION_SECONDS
 	
 	var base_screen_size = get_viewport().content_scale_size
-	var y_pos = base_screen_size.y - (0.5 * card_to_animate.get_height() * CARD_EXPANSION_FACTOR.y)
+	var y_pos = base_screen_size.y - (card_to_animate.get_height())
 	var hovered_pos = to_local(Vector2(to_global(get_card_default_pos(card_to_animate)).x, y_pos))
+	hovered_pos.y += card_to_animate.get_origin_offset().y
 	
 	var tween = create_tween()
 	tween.set_parallel(true)
