@@ -158,10 +158,9 @@ func disconnect_signals(card: Card):
 func remove_card(card: Card):
 	if card == selected_card:
 		selected_card = null
-	disconnect_signals(card)
-	#hovered_cards.erase(card)
-	remove_child(card)
-
+	hovered_cards.erase(card)
+	card.queue_free()
+	
 # this is temporary testing code
 func _input(event):
 	if event.is_action_pressed("ui_accept"):

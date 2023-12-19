@@ -13,10 +13,6 @@ func get_grid(player: String) -> GridContainer:
 		return
 
 func scale_card(card: Card):
-	print('scale card called')
-	#card.set_size(Vector2(20,30))
-	card.scale = Vector2(1, 1)
-	print(card["custom_minimum_size"])
 	card["custom_minimum_size"] = Vector2(50, 75)
 
 func add_card(card: Card, player: String):
