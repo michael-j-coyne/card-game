@@ -66,8 +66,6 @@ func _fan_cards():
 	var tween := create_tween()
 	tween.set_parallel(true)
 	
-	print('card to fan are ', cards_to_fan)
-
 	for card in cards_to_fan:
 		# I am very unsure if scale_card_to_default_size should go here.
 		# I also don't know if its a good idea to reset the z_index here.
@@ -109,7 +107,6 @@ func animate_card_hover(card_to_animate: Card) -> void:
 	tween.tween_property(card_to_animate, "scale", CARD_EXPANSION_FACTOR, duration_seconds)
 	tween.tween_property(card_to_animate, "rotation_degrees", 0, duration_seconds)
 	tween.tween_property(card_to_animate, "position", hovered_pos, duration_seconds)
-	print('hovered pos is ', to_global(hovered_pos))
 
 func scale_card_to_default_size(card: Card) -> void:
 	if not card: return
@@ -148,13 +145,6 @@ func add_card_to_hand(card: Card):
 	card.mouse_exited_card.connect(_on_mouse_exited_card)
 	card.card_selected.connect(_on_card_selected)
 	
-func disconnect_signals(card: Card):
-	var signals = card.get_signal_list();
-	for cur_signal in signals:
-		var conns = card.get_signal_connection_list(cur_signal.name);
-		for cur_conn in conns:
-			cur_conn.signal.disconnect(cur_conn.callable)
-	
 func remove_card(card: Card):
 	if card == selected_card:
 		selected_card = null
@@ -174,10 +164,6 @@ func _compute_pos(hand_ratio: float, card_spread_x: float) -> Vector2:
 
 func get_card_default_pos(card: Card) -> Vector2:
 	return _compute_pos(get_hand_ratio(card), get_card_spread_x(card))
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
 
 func _on_game_backdrop_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
