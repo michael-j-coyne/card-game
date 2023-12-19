@@ -27,7 +27,7 @@ var hovered_cards : Array[Card] = []
 var selected_card = null
 
 # Compute the horizontal space that the hand will occupy
-func _compute_card_spread_x(num_cards_in_hand: int, card_width: int) -> float:
+func _compute_card_spread_x(num_cards_in_hand: int, card_width: float) -> float:
 	const overlap = 30
 	var spread = num_cards_in_hand * (card_width - overlap) * SPREAD_FACTOR
 	return spread if spread < MAX_SPREAD else MAX_SPREAD
@@ -141,8 +141,8 @@ func generate_random_card() -> Card:
 func add_card_to_hand(card: Card):
 	add_child(card)
 	card.position = CARD_SPAWN_POS
-	card.mouse_entered.connect(_on_mouse_entered_card)
-	card.mouse_exited.connect(_on_mouse_exited_card)
+	card.mouse_entered_card.connect(_on_mouse_entered_card)
+	card.mouse_exited_card.connect(_on_mouse_exited_card)
 	card.card_selected.connect(_on_card_selected)
 
 # this is temporary testing code

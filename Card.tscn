@@ -3,19 +3,16 @@
 [ext_resource type="Script" path="res://Card.gd" id="1_0tftp"]
 [ext_resource type="Texture2D" uid="uid://brty3fmdgk7wq" path="res://assets/blank_card.png" id="1_agvw2"]
 
-[node name="Card" type="Node2D"]
+[node name="Card" type="TextureRect"]
+custom_minimum_size = Vector2(200, 290)
+offset_right = 200.0
+offset_bottom = 290.0
+rotation = -0.0174533
+pivot_offset = Vector2(100, 145)
+texture = ExtResource("1_agvw2")
+expand_mode = 1
 script = ExtResource("1_0tftp")
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="Background" type="Sprite2D" parent="Area2D"]
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("1_agvw2")
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
-scale = Vector2(0.4, 0.4)
-polygon = PackedVector2Array(250, -355.8, 250, 354, 241.7, 363, -242, 363, -250, 355.8, -250, -354, -241, -362.8, 241, -363)
-
-[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
-[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
