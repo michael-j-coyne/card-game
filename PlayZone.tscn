@@ -1,10 +1,8 @@
-[gd_scene format=3 uid="uid://dw86m8e7hpr6d"]
+[gd_scene load_steps=2 format=3 uid="uid://dw86m8e7hpr6d"]
 
-[node name="PlayZone" type="Node2D"]
-position = Vector2(742, 479)
-metadata/_edit_group_ = true
+[ext_resource type="Texture2D" uid="uid://stf4xq7ijxhk" path="res://assets/grey-rectangle.jpeg" id="2_ux3rs"]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="PlayZone" type="VBoxContainer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -18,23 +16,44 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 15
 
-[node name="Player1Grid" type="GridContainer" parent="VBoxContainer"]
+[node name="P1MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="ColorRect" type="ColorRect" parent="VBoxContainer/Player1Grid"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color(1, 1, 0.8, 1)
+[node name="PlayZoneSprite" type="Sprite2D" parent="P1MarginContainer"]
+show_behind_parent = true
+scale = Vector2(0.167, 0.225)
+texture = ExtResource("2_ux3rs")
+centered = false
 
-[node name="Player2Grid" type="GridContainer" parent="VBoxContainer"]
+[node name="Player1Grid" type="GridContainer" parent="P1MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/h_separation = 6
+columns = 2
 
-[node name="ColorRect" type="ColorRect" parent="VBoxContainer/Player2Grid"]
+[node name="P2MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
-color = Color(1, 0.788235, 0.996078, 1)
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PlayZoneSprite" type="Sprite2D" parent="P2MarginContainer"]
+show_behind_parent = true
+scale = Vector2(0.167, 0.225)
+texture = ExtResource("2_ux3rs")
+centered = false
+
+[node name="Player2Grid" type="GridContainer" parent="P2MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 6
+columns = 2
