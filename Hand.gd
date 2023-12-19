@@ -10,7 +10,7 @@ const CardScene = preload('res://Card.tscn')
 	preload("res://UI/resources/hand_rotation_curve.tres")
 
 # maybe the CARD_SPREAD_Y and BASE_ROTATION_DEGREES should scale based on the value of
-# _compute_card_spread_x to avoid the situation with three cards
+# _compute_hand_width to avoid the situation with three cards
 const MAX_SPREAD := 800.0
 const CARD_SPREAD_Y : float = 45.0
 const BASE_ROTATION_DEGREES = 6.5
@@ -29,13 +29,10 @@ func get_selected_card() -> Card:
 	return selected_card
 
 # Compute the horizontal space that the hand will occupy
-func _compute_card_spread_x(num_cards_in_hand: int, card_width: float) -> float:
+func _compute_hand_width(num_cards_in_hand: int, card_width: float) -> float:
 	const card_overlap = 145
 	var spread = num_cards_in_hand * (card_width - card_overlap)
 	return spread if spread < MAX_SPREAD else MAX_SPREAD
-
-func get_card_spread_x(card: Card) -> float:
-	return _compute_card_spread_x(get_child_count(), card.get_width())
 
 # a 'hand ratio' is a value between 0 and 1 which is related to the position of the card
 # in the hand. The leftmost card receives a value of 0 and the rightmostcard receives a value
@@ -44,46 +41,58 @@ func _compute_hand_ratio(card_index: int, hand_size: int) -> float:
 	if hand_size < 2: return 0.5
 	return float(card_index) / float(hand_size - 1)
 
-func get_hand_ratio(card: Card) -> float:
-	return _compute_hand_ratio(card.get_index(), get_child_count())
+func _compute_default_pos(hand_ratio: float, hand_width: float) -> Vector2:
+	var relative_x = horizontal_spread_curve.sample(hand_ratio) * hand_width
+	var relative_y = vertical_spread_curve.sample(hand_ratio) * CARD_SPREAD_Y * -1
+	return Vector2(relative_x, relative_y)
 
-func _fan_cards():
-	if not get_children(): return
-	const duration_seconds = CARD_FAN_ANIMATION_DURATION_SECONDS
+func get_card_default_pos(card: Card) -> Vector2:
+	 #_compute_hand_width(get_child_count(), card.size.x)
+	var num_cards_in_hand = get_child_count()
+	var card_width = card.size.x
+	var hand_width = _compute_hand_width(num_cards_in_hand, card_width)
+	var hand_ratio = _compute_hand_ratio(card.get_index(), num_cards_in_hand)
+	
+	return _compute_default_pos(hand_ratio, hand_width)
+
+func _reset_card_animation_state(uninteracted_cards):
+	for card in uninteracted_cards:
+		scale_card_to_default_size(card)
+		card.z_index = DEFAULT_CARD_Z_INDEX
+
+func get_uninteracted_cards():
+	var filter_func
 	var hovered_card = get_hovered_card()
 	
-	var filter_func
-	
 	if selected_card:
-		filter_func = func(card): return card != selected_card
+		filter_func = func(card: Card): return card != selected_card
 	elif hovered_card:
-		filter_func = func(card): return card != hovered_card
+		filter_func = func(card: Card): return card != hovered_card
 	else:
-		filter_func = func(card): return true
+		filter_func = func(card: Card): return true
 	
-	var cards_to_fan := get_children().filter(filter_func)
+	return get_children().filter(filter_func)
+
+func _fan_cards(cards_to_fan):
+	if not get_children(): return
+	const duration_seconds = CARD_FAN_ANIMATION_DURATION_SECONDS
+	
 	var tween := create_tween()
 	tween.set_parallel(true)
 	
 	for card in cards_to_fan:
-		# I am very unsure if scale_card_to_default_size should go here.
-		# I also don't know if its a good idea to reset the z_index here.
-		# That's speaking from a design standpoint. From a practical standpoint, it works for now.
-		# Perhaps this function isn't just 'fanning cards' its also 'resetting' them.
-		
-		# resetting
-		scale_card_to_default_size(card)
-		card.z_index = DEFAULT_CARD_Z_INDEX
-		
-		# fanning
+		var hand_ratio = _compute_hand_ratio(card.get_index(), get_child_count())
 		var pos := get_card_default_pos(card)
-		var rotation_amt := rotation_curve.sample(get_hand_ratio(card)) * BASE_ROTATION_DEGREES
+		var rotation_amt := rotation_curve.sample(hand_ratio) * BASE_ROTATION_DEGREES
 		tween.tween_property(card, "position", pos, duration_seconds)
 		tween.tween_property(card, "rotation_degrees", rotation_amt, duration_seconds)
 
 func _physics_process(_delta : float) -> void:
-	_fan_cards()
+	var uninteracted_cards = get_uninteracted_cards()
 	var hovered_card = get_hovered_card()
+	
+	_reset_card_animation_state(uninteracted_cards)
+	_fan_cards(uninteracted_cards)
 	
 	if selected_card:
 		animate_card_hover(selected_card)
@@ -156,14 +165,6 @@ func _input(event):
 	if event.is_action_pressed("ui_accept"):
 		var card_to_add = generate_random_card()
 		add_card_to_hand(card_to_add)
-
-func _compute_pos(hand_ratio: float, card_spread_x: float) -> Vector2:
-	var relative_x = horizontal_spread_curve.sample(hand_ratio) * card_spread_x
-	var relative_y = vertical_spread_curve.sample(hand_ratio) * CARD_SPREAD_Y * -1
-	return Vector2(relative_x, relative_y)
-
-func get_card_default_pos(card: Card) -> Vector2:
-	return _compute_pos(get_hand_ratio(card), get_card_spread_x(card))
 
 func _on_game_backdrop_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
