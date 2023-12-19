@@ -3,5 +3,5 @@
 [ext_resource type="Script" path="res://Hand.gd" id="1_qdpuj"]
 
 [node name="Hand" type="Node2D"]
-position = Vector2(926, 951)
+position = Vector2(931, 817)
 script = ExtResource("1_qdpuj")
