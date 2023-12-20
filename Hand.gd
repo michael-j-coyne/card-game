@@ -46,8 +46,7 @@ func _compute_default_pos(hand_ratio: float, hand_width: float) -> Vector2:
 	var relative_y = vertical_spread_curve.sample(hand_ratio) * CARD_SPREAD_Y * -1
 	return Vector2(relative_x, relative_y)
 
-func get_card_default_pos(card: Card) -> Vector2:
-	 #_compute_hand_width(get_child_count(), card.size.x)
+func _card_default_pos(card: Card) -> Vector2:
 	var num_cards_in_hand = get_child_count()
 	var card_width = card.size.x
 	var hand_width = _compute_hand_width(num_cards_in_hand, card_width)
@@ -82,7 +81,7 @@ func _fan_cards(cards_to_fan):
 	
 	for card in cards_to_fan:
 		var hand_ratio = _compute_hand_ratio(card.get_index(), get_child_count())
-		var pos := get_card_default_pos(card)
+		var pos := _card_default_pos(card)
 		var rotation_amt := rotation_curve.sample(hand_ratio) * BASE_ROTATION_DEGREES
 		tween.tween_property(card, "position", pos, duration_seconds)
 		tween.tween_property(card, "rotation_degrees", rotation_amt, duration_seconds)
@@ -95,12 +94,12 @@ func _physics_process(_delta : float) -> void:
 	_fan_cards(uninteracted_cards)
 	
 	if selected_card:
-		animate_card_hover(selected_card)
+		_animate_card_hover(selected_card)
 	elif hovered_card:
-		animate_card_hover(hovered_card)
+		_animate_card_hover(hovered_card)
 
 # this isn't just the card hover animation, its also the card select animation (or part of it)
-func animate_card_hover(card_to_animate: Card) -> void:
+func _animate_card_hover(card_to_animate: Card) -> void:
 	if not card_to_animate: return
 	
 	card_to_animate.z_index = HOVERED_CARD_Z_INDEX
@@ -108,7 +107,7 @@ func animate_card_hover(card_to_animate: Card) -> void:
 	
 	var base_screen_size = get_viewport().content_scale_size
 	var y_pos = base_screen_size.y - (card_to_animate.get_height())
-	var hovered_pos = to_local(Vector2(to_global(get_card_default_pos(card_to_animate)).x, y_pos))
+	var hovered_pos = to_local(Vector2(to_global(_card_default_pos(card_to_animate)).x, y_pos))
 	hovered_pos.y += card_to_animate.get_origin_offset().y
 	
 	var tween = create_tween()
