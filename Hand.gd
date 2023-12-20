@@ -54,6 +54,10 @@ func _card_default_pos(card: Card) -> Vector2:
 	
 	return _compute_default_pos(hand_ratio, hand_width)
 
+# I need to be careful doing something like this because scale_card_to_default_size
+# tweens the "scale" property, and only one tween should be used per object's property
+# so no other tween can be acting on the "scale" property of cards that are being passed
+# to this func. Consider refactoring this.
 func _reset_card_animation_state(uninteracted_cards):
 	for card in uninteracted_cards:
 		scale_card_to_default_size(card)
