@@ -2,14 +2,6 @@ extends Node
 
 const CardScene = preload('res://Card.tscn')
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-	
 func _zone_clicked(zone: PlayZone, player: String):
 	var hand = get_node("Hand")
 	var card : Card = hand.get_selected_card()
