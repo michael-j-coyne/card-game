@@ -7,9 +7,4 @@ func _ready():
 func animate(cards_to_animate: Array[Node]):
 	if not cards_to_animate: return
 	
-	if tween:
-		tween.kill()
-	tween = create_tween()
-	tween.set_parallel(true)
-	
-	Animations.idle_animation(cards_to_animate, hand, tween)
+	Animations.idle_animation(cards_to_animate, hand)

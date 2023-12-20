@@ -74,7 +74,6 @@ func get_idle_cards():
 
 func _process(_delta : float) -> void:
 	animate(get_cards())
-	print("state is ", state.state_name)
 
 func _on_mouse_entered_card(card: Card):
 	if state.state_name == "idle":

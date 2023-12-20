@@ -15,11 +15,13 @@ const CARD_EXPANSION_FACTOR = Vector2(1.5, 1.5)
 const DEFAULT_CARD_Z_INDEX = 0
 const HOVERED_CARD_Z_INDEX = 1
 
-static func idle_animation(cards_to_animate: Array[Node], hand: Hand, tween: Tween):
+static func idle_animation(cards_to_animate: Array[Node], hand: Hand):
 	const idle_duration = CARD_IDLE_ANIMATION_DURATION_SECONDS
 	const hovered_duration = CARD_HOVERED_ANIMATION_DURATION_SECONDS
 	
 	for card in cards_to_animate:
+		var tween = card.create_tween()
+		tween.set_parallel(true)
 		var hand_ratio = hand._compute_hand_ratio(card.get_index(), cards_to_animate.size())
 		var pos := hand._card_default_pos(card)
 		var rotation_amt := rotation_curve.sample(hand_ratio) * BASE_ROTATION_DEGREES
@@ -29,7 +31,7 @@ static func idle_animation(cards_to_animate: Array[Node], hand: Hand, tween: Twe
 		tween.tween_property(card, "scale", Vector2(1, 1), hovered_duration)
 		card.z_index = DEFAULT_CARD_Z_INDEX
 		
-static func hovered_animation(cards_to_animate: Array[Node], hand: Hand, tween: Tween):
+static func hovered_animation(cards_to_animate: Array[Node], hand: Hand):
 		const hovered_duration = CARD_HOVERED_ANIMATION_DURATION_SECONDS
 		
 		# keep in mind this is not guaranteed to return a value
@@ -38,6 +40,8 @@ static func hovered_animation(cards_to_animate: Array[Node], hand: Hand, tween: 
 		if not hovered_card:
 			printerr("You are trying to do the hovered animation when there is no hovered card")
 	
+		var tween = hovered_card.create_tween()
+		tween.set_parallel(true)
 		var base_screen_size = hand.get_viewport().content_scale_size
 		var y_pos = base_screen_size.y - (hovered_card.get_height())
 		var hovered_pos = hand.to_local(Vector2(hand.to_global(hand._card_default_pos(hovered_card)).x, y_pos))
@@ -48,4 +52,4 @@ static func hovered_animation(cards_to_animate: Array[Node], hand: Hand, tween: 
 		tween.tween_property(hovered_card, "position", hovered_pos, hovered_duration)
 		hovered_card.z_index = HOVERED_CARD_Z_INDEX
 		
-		idle_animation(hand.get_idle_cards(), hand, tween)
+		idle_animation(hand.get_idle_cards(), hand)
