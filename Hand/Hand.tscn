@@ -1,7 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://bcyy6s0bdd2ri"]
 
-[ext_resource type="Script" path="res://Hand.gd" id="1_qdpuj"]
+[ext_resource type="Script" path="res://Hand/Hand.gd" id="1_qdpuj"]
 
 [node name="Hand" type="Node2D"]
 position = Vector2(820, 815)
 script = ExtResource("1_qdpuj")
+
+[node name="Cards" type="Node2D" parent="."]

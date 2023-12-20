@@ -7,6 +7,7 @@ func _zone_clicked(zone: PlayZone, player: String):
 	var card : Card = hand.get_selected_card()
 	if card:
 		var new_card := CardScene.instantiate()
+		# use setup here instead of init
 		new_card.init(card.get_card_name())
 		hand.remove_card(card)
 		zone.add_card(new_card, player)
