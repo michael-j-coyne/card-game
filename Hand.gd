@@ -68,7 +68,7 @@ func get_uninteracted_cards():
 	elif hovered_card:
 		filter_func = func(card: Card): return card != hovered_card
 	else:
-		filter_func = func(card: Card): return true
+		filter_func = func(_card: Card): return true
 	
 	return get_children().filter(filter_func)
 
