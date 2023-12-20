@@ -35,3 +35,8 @@ offset_bottom = 6.0
 
 [connection signal="gui_input" from="GameBackdrop" to="Hand" method="_on_game_backdrop_input"]
 [connection signal="p1_zone_clicked" from="PlayZone" to="." method="_p1_zone_clicked"]
+[connection signal="p2_zone_clicked" from="PlayZone" to="." method="_p2_zone_clicked"]
+[connection signal="p1_zone_clicked" from="PlayZone2" to="." method="_p1_zone_clicked"]
+[connection signal="p2_zone_clicked" from="PlayZone2" to="." method="_p2_zone_clicked"]
+[connection signal="p1_zone_clicked" from="PlayZone3" to="." method="_p1_zone_clicked"]
+[connection signal="p2_zone_clicked" from="PlayZone3" to="." method="_p2_zone_clicked"]

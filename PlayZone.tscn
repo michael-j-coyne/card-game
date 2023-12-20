@@ -20,26 +20,6 @@ size_flags_vertical = 3
 theme_override_constants/separation = 15
 script = ExtResource("1_5ivus")
 
-[node name="P1MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="PlayZoneSprite" type="Sprite2D" parent="P1MarginContainer"]
-show_behind_parent = true
-scale = Vector2(0.167, 0.225)
-texture = ExtResource("2_ux3rs")
-centered = false
-
-[node name="Player1Grid" type="GridContainer" parent="P1MarginContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/h_separation = 6
-columns = 2
-
 [node name="P2MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_vertical = 3
@@ -60,5 +40,25 @@ size_flags_vertical = 3
 theme_override_constants/h_separation = 6
 columns = 2
 
-[connection signal="gui_input" from="P1MarginContainer" to="." method="_on_p1_zone_input"]
+[node name="P1MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PlayZoneSprite" type="Sprite2D" parent="P1MarginContainer"]
+show_behind_parent = true
+scale = Vector2(0.167, 0.225)
+texture = ExtResource("2_ux3rs")
+centered = false
+
+[node name="Player1Grid" type="GridContainer" parent="P1MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 6
+columns = 2
+
 [connection signal="gui_input" from="P2MarginContainer" to="." method="_on_p2_zone_input"]
+[connection signal="gui_input" from="P1MarginContainer" to="." method="_on_p1_zone_input"]
