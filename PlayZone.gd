@@ -10,6 +10,7 @@ func get_grid(player: String) -> GridContainer:
 		return get_node("P2MarginContainer/Player2Grid")
 	else:
 		push_error("Player must be either string 'P1' for player one or 'P2' for player two")
+		assert(false)
 		return
 
 func scale_card(card: Card):
