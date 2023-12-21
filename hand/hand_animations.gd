@@ -1,4 +1,4 @@
-class_name Animations extends Node
+class_name HandAnimations extends Node
 
 const horizontal_spread_curve :=  \
 	preload("res://UI/resources/horizontal_card_spread_curve.tres")

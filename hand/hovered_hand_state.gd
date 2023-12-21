@@ -7,7 +7,7 @@ func _ready():
 
 func animate(cards_to_animate: Array[Node]):
 	if not cards_to_animate: return
-	Animations.hovered_animation(cards_to_animate, hand)
+	HandAnimations.hovered_animation(cards_to_animate, hand)
 	
 func get_hovered_card() -> Card:
 	return hovered_card
