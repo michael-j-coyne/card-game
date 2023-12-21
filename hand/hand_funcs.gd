@@ -9,9 +9,9 @@ const MAX_SPREAD := 800.0
 const CARD_SPREAD_Y : float = 45.0
 
 # Compute the horizontal space that the hand will occupy
-static func hand_width(num_cards_in_hand: int, card_width: float) -> float:
+static func hand_width(num_cards_in_hand: int, card_base_width: float) -> float:
 	const card_overlap = 145
-	var spread = num_cards_in_hand * (card_width - card_overlap)
+	var spread = num_cards_in_hand * (card_base_width - card_overlap)
 	return spread if spread < MAX_SPREAD else MAX_SPREAD
 	
 # a 'hand ratio' is a value between 0 and 1 which is related to the position of the card
@@ -25,4 +25,3 @@ static func default_pos(hand_ratio: float, hand_width: float) -> Vector2:
 	var relative_x = horizontal_spread_curve.sample(hand_ratio) * hand_width
 	var relative_y = vertical_spread_curve.sample(hand_ratio) * CARD_SPREAD_Y * -1
 	return Vector2(relative_x, relative_y)
-
