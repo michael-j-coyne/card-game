@@ -22,7 +22,7 @@ static func idle_animation(cards_to_animate: Array[Node], hand: Hand):
 	for card in cards_to_animate:
 		var tween = card.create_tween()
 		tween.set_parallel(true)
-		var hand_ratio = hand._compute_hand_ratio(card.get_index(), cards_to_animate.size())
+		var hand_ratio = HandFuncs.hand_ratio(card.get_index(), cards_to_animate.size())
 		var pos := hand._card_default_pos(card)
 		var rotation_amt := rotation_curve.sample(hand_ratio) * BASE_ROTATION_DEGREES
 		tween.tween_property(card, "position", pos, idle_duration)

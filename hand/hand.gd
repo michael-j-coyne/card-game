@@ -2,16 +2,7 @@ class_name Hand extends Node2D
 
 const CardScene = preload('res://Card.tscn')
 
-@export var horizontal_spread_curve :=  \
-	preload("res://UI/resources/horizontal_card_spread_curve.tres")
-@export var vertical_spread_curve := \
-	preload("res://UI/resources/vertical_card_spread_curve.tres")
-@export var rotation_curve := \
-	preload("res://UI/resources/hand_rotation_curve.tres")
-
 const CARD_SPAWN_POS = Vector2(1000, 0)
-const MAX_SPREAD := 800.0
-const CARD_SPREAD_Y : float = 45.0
 
 var rng = RandomNumberGenerator.new()
 var hovered_cards : Array[Card] = []
@@ -37,31 +28,13 @@ func change_state(new_state_name):
 func get_selected_card() -> Card:
 	return selected_card
 
-# Compute the horizontal space that the hand will occupy
-func _compute_hand_width(num_cards_in_hand: int, card_width: float) -> float:
-	const card_overlap = 145
-	var spread = num_cards_in_hand * (card_width - card_overlap)
-	return spread if spread < MAX_SPREAD else MAX_SPREAD
-
-# a 'hand ratio' is a value between 0 and 1 which is related to the position of the card
-# in the hand. The leftmost card receives a value of 0 and the rightmostcard receives a value
-# of 1, the middle card is 0.5
-func _compute_hand_ratio(card_index: int, hand_size: int) -> float:
-	if hand_size < 2: return 0.5
-	return float(card_index) / float(hand_size - 1)
-
-func _compute_default_pos(hand_ratio: float, hand_width: float) -> Vector2:
-	var relative_x = horizontal_spread_curve.sample(hand_ratio) * hand_width
-	var relative_y = vertical_spread_curve.sample(hand_ratio) * CARD_SPREAD_Y * -1
-	return Vector2(relative_x, relative_y)
-
 func _card_default_pos(card: Card) -> Vector2:
 	var num_cards_in_hand = get_node("Cards").get_child_count()
 	var card_width = card.size.x
-	var hand_width = _compute_hand_width(num_cards_in_hand, card_width)
-	var hand_ratio = _compute_hand_ratio(card.get_index(), num_cards_in_hand)
+	var hand_width = HandFuncs.hand_width(num_cards_in_hand, card_width)
+	var hand_ratio = HandFuncs.hand_ratio(card.get_index(), num_cards_in_hand)
 	
-	return _compute_default_pos(hand_ratio, hand_width)
+	return HandFuncs.default_pos(hand_ratio, hand_width)
 
 func get_cards() -> Array[Node]:
 	return get_node("Cards").get_children()
