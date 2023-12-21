@@ -12,8 +12,8 @@ func _ready():
 	state_factory = HandStateFactory.new()
 	change_state("idle")
 
-func animate(cards_to_animate: Array[Node]):
-	state.animate(cards_to_animate)
+func animate_hand():
+	state.animate_hand()
 
 func change_state(new_state_name):
 	if state != null:
@@ -25,21 +25,17 @@ func change_state(new_state_name):
 func get_selected_card() -> Card:
 	return selected_card
 
-func _card_default_pos(card: Card) -> Vector2:
-	var num_cards_in_hand = get_node("Cards").get_child_count()
-	var hand_width = HandFuncs.hand_width(num_cards_in_hand, card.get_base_width())
-	var hand_ratio = HandFuncs.hand_ratio(card.get_index(), num_cards_in_hand)
-	
-	return HandFuncs.default_pos(hand_ratio, hand_width)
-
 func get_cards() -> Array[Node]:
 	return get_node("Cards").get_children()
+
+func get_card_count() -> int:
+	return get_node("Cards").get_child_count()
 
 func get_idle_cards():
 	return state.get_idle_cards()
 
 func _process(_delta : float) -> void:
-	animate(get_cards())
+	animate_hand()
 
 func _on_mouse_entered_card(card: Card):
 	state.handle_mouse_entered_card(card)

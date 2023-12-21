@@ -5,9 +5,8 @@ var hovered_card
 func _ready():
 	state_name = "hovered"
 
-func animate(cards_to_animate: Array[Node]):
-	if not cards_to_animate: return
-	HandAnimations.hovered_animation(cards_to_animate, hand, self)
+func animate_hand():
+	HandAnimations.hovered_animation(hovered_card, hand)
 	
 func handle_mouse_entered_card(card: Card):
 	set_hovered_card(card)

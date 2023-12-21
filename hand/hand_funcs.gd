@@ -21,7 +21,11 @@ static func hand_ratio(card_index: int, hand_size: int) -> float:
 	if hand_size < 2: return 0.5
 	return float(card_index) / float(hand_size - 1)
 
-static func default_pos(hand_ratio: float, hand_width: float) -> Vector2:
-	var relative_x = horizontal_spread_curve.sample(hand_ratio) * hand_width
-	var relative_y = vertical_spread_curve.sample(hand_ratio) * CARD_SPREAD_Y * -1
+static func relative_card_default_pos(card_index: int, num_cards_in_hand: int, card_base_width: float) -> Vector2:
+	var ratio = hand_ratio(card_index, num_cards_in_hand)
+	var width = hand_width(num_cards_in_hand, card_base_width)
+	
+	var relative_x = horizontal_spread_curve.sample(ratio) * width
+	var relative_y = vertical_spread_curve.sample(ratio) * CARD_SPREAD_Y * -1
+	
 	return Vector2(relative_x, relative_y)
