@@ -5,9 +5,8 @@ const CardScene = preload('res://Card.tscn')
 const CARD_SPAWN_POS = Vector2(1000, 0)
 
 var rng = RandomNumberGenerator.new()
-var hovered_cards : Array[Card] = []
-var selected_card = null
 
+var selected_card = null
 var state: HandState
 var state_factory
 
@@ -46,28 +45,15 @@ func _process(_delta : float) -> void:
 	animate(get_cards())
 
 func _on_mouse_entered_card(card: Card):
-	if state.state_name == "idle":
-		change_state("hovered")
-	hovered_cards.append(card)
+	state.handle_mouse_entered_card(card)
 
 func _on_mouse_exited_card(card: Card):
-	if state.state_name == "hovered":
-		change_state("idle")
-	hovered_cards.erase(card)
-
+	state.handle_mouse_exited_card(card)
+	
 func _on_card_selected(card: Card):
 	selected_card = card
 
-# sometimes this function returns nothing... How do I handle this?
-# is there a way to return a maybe(Card)? What would that be called?
-# I found out its called an "option" type or a "maybe" type.
-func get_hovered_card() -> Card:
-	if not hovered_cards: return
-	var highest_index = func(max_val, val):
-		return val if val.get_index() > max_val.get_index() else max_val
-	var rightmost_card = hovered_cards.reduce(highest_index)
-	return rightmost_card
-
+# this is in the wrong place
 func generate_random_card() -> Card:
 	var card_name := str(rng.randi_range(1,10))
 	var card := CardScene.instantiate()
@@ -84,7 +70,6 @@ func add_card_to_hand(card: Card):
 func remove_card(card: Card):
 	if card == selected_card:
 		selected_card = null
-	hovered_cards.erase(card)
 	card.queue_free()
 	
 # this is temporary testing code

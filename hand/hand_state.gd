@@ -12,3 +12,9 @@ func animate(_cards_to_animate: Array[Node]):
 	
 func get_idle_cards():
 	pass
+	
+func handle_mouse_entered_card(_card: Card):
+	pass
+
+func handle_mouse_exited_card(_card: Card):
+	pass

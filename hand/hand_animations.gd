@@ -31,11 +31,11 @@ static func idle_animation(cards_to_animate: Array[Node], hand: Hand):
 		tween.tween_property(card, "scale", Vector2(1, 1), hovered_duration)
 		card.z_index = DEFAULT_CARD_Z_INDEX
 		
-static func hovered_animation(cards_to_animate: Array[Node], hand: Hand):
+static func hovered_animation(cards_to_animate: Array[Node], hand: Hand, hand_state: HoveredHandState):
 		const hovered_duration = CARD_HOVERED_ANIMATION_DURATION_SECONDS
 		
 		# keep in mind this is not guaranteed to return a value
-		var hovered_card = hand.get_hovered_card()
+		var hovered_card = hand_state.get_hovered_card()
 		
 		if not hovered_card:
 			printerr("You are trying to do the hovered animation when there is no hovered card")

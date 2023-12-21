@@ -7,7 +7,16 @@ func _ready():
 
 func animate(cards_to_animate: Array[Node]):
 	if not cards_to_animate: return
-	HandAnimations.hovered_animation(cards_to_animate, hand)
+	HandAnimations.hovered_animation(cards_to_animate, hand, self)
+	
+func handle_mouse_entered_card(card: Card):
+	set_hovered_card(card)
+	
+func handle_mouse_exited_card(_card: Card):
+	# I don't like this. It feels hacky. I want a better way of handling when
+	# the mouse exits a card, since we may be exiting one card and entering a new one,
+	# in that case we shouldn't go idle, we should just change the hovered_card.
+	hand.change_state("idle")
 	
 func get_hovered_card() -> Card:
 	return hovered_card
