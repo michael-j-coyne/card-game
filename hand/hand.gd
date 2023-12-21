@@ -4,8 +4,6 @@ const CardScene = preload('res://Card.tscn')
 
 const CARD_SPAWN_POS = Vector2(1000, 0)
 
-var rng = RandomNumberGenerator.new()
-
 var selected_card = null
 var state: HandState
 var state_factory
@@ -53,14 +51,7 @@ func _on_mouse_exited_card(card: Card):
 func _on_card_selected(card: Card):
 	selected_card = card
 
-# this is in the wrong place
-func generate_random_card() -> Card:
-	var card_name := str(rng.randi_range(1,10))
-	var card := CardScene.instantiate()
-	card.init(card_name)
-	return card
-
-func add_card_to_hand(card: Card):
+func add_card (card: Card):
 	get_node('Cards').add_child(card)
 	card.position = CARD_SPAWN_POS
 	card.mouse_entered_card.connect(_on_mouse_entered_card)
@@ -71,13 +62,8 @@ func remove_card(card: Card):
 	if card == selected_card:
 		selected_card = null
 	card.queue_free()
-	
-# this is temporary testing code
-func _input(event):
-	if event.is_action_pressed("ui_accept"):
-		var card_to_add = generate_random_card()
-		add_card_to_hand(card_to_add)
 
+# I'm not sure if this solution will work as I add more stuff.
 func _on_game_backdrop_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		selected_card = null

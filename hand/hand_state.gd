@@ -1,6 +1,5 @@
 class_name HandState extends Node
 
-var tween: Tween
 var hand: Hand
 var state_name: String
 
