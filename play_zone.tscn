@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dw86m8e7hpr6d"]
 
-[ext_resource type="Script" path="res://PlayZone.gd" id="1_5ivus"]
+[ext_resource type="Script" path="res://play_zone.gd" id="1_5ivus"]
 [ext_resource type="Texture2D" uid="uid://stf4xq7ijxhk" path="res://assets/grey-rectangle.jpeg" id="2_ux3rs"]
 
 [node name="PlayZone" type="VBoxContainer"]
