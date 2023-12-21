@@ -27,8 +27,7 @@ func get_selected_card() -> Card:
 
 func _card_default_pos(card: Card) -> Vector2:
 	var num_cards_in_hand = get_node("Cards").get_child_count()
-	var card_width = card.size.x
-	var hand_width = HandFuncs.hand_width(num_cards_in_hand, card_width)
+	var hand_width = HandFuncs.hand_width(num_cards_in_hand, card.get_base_width())
 	var hand_ratio = HandFuncs.hand_ratio(card.get_index(), num_cards_in_hand)
 	
 	return HandFuncs.default_pos(hand_ratio, hand_width)

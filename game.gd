@@ -10,7 +10,7 @@ func _zone_clicked(zone: PlayZone, player: String):
 	if card:
 		var new_card := CardScene.instantiate()
 		# use setup here instead of init
-		new_card.init(card.get_card_name())
+		new_card.setup(card.get_card_name())
 		hand.remove_card(card)
 		zone.add_card(new_card, player)
 
@@ -18,7 +18,7 @@ func _zone_clicked(zone: PlayZone, player: String):
 func generate_random_card() -> Card:
 	var card_name := str(rng.randi_range(1,10))
 	var card := CardScene.instantiate()
-	card.init(card_name)
+	card.setup(card_name)
 	return card
 
 # temp, testing code

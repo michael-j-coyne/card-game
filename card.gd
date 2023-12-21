@@ -16,13 +16,19 @@ func get_width() -> float:
 func get_height() -> float:
 	return size.y * scale.y
 
+func get_base_width() -> float:
+	return size.x
+
+func get_base_height() -> float:
+	return size.y
+
 func get_value() -> int:
 	return _value
 	
 func get_card_name() -> String:
 	return _card_name
 
-func init(card_name: String):
+func setup(card_name: String):
 	var path = str("res://assets/cards/", card_name ,".png")
 	self.texture = load(path)
 	
