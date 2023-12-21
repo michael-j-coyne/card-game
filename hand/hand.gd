@@ -40,10 +40,7 @@ func get_cards() -> Array[Node]:
 	return get_node("Cards").get_children()
 
 func get_idle_cards():
-	if state.state_name == "hovered":
-		return get_cards().filter(func(card): return card != get_hovered_card())
-	else:
-		return get_cards()
+	return state.get_idle_cards()
 
 func _process(_delta : float) -> void:
 	animate(get_cards())

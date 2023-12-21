@@ -9,3 +9,6 @@ func setup(hand: Hand):
 
 func animate(_cards_to_animate: Array[Node]):
 	pass
+	
+func get_idle_cards():
+	pass
