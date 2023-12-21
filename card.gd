@@ -39,6 +39,7 @@ func setup(card_name: String):
 # Because the node's pivot_offset is in the center, the node's "origin" (topleft) will be
 # offset from the "visual origin" / visual topleft. This function returns a vector indicating
 # the offset in the x and y direction.
+# TODO: Make this functional, and then write a unit test!
 func get_origin_offset():
 	# The positioning origin is the 'actual' topleft of the node, which will look different
 	# From the visual topleft of the node if the scale is not (1, 1)

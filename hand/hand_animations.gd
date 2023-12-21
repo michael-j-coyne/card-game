@@ -60,4 +60,6 @@ static func hovered_animation(hovered_card: Card, hand: Hand):
 		tween.tween_property(hovered_card, "position", hovered_pos, hovered_duration)
 		hovered_card.z_index = HOVERED_CARD_Z_INDEX
 		
+		# TODO: I think I should just pass the idle cards as an argument, and I should delete
+		# the get_idle_cards func in hand.gd
 		idle_animation(hand.get_idle_cards(), hand)
