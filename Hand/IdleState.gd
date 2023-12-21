@@ -1,5 +1,5 @@
 # Look up class namespace stuff
-class_name IdleState extends State
+class_name IdleHandState extends HandState
 
 func _ready():
 	state_name = "idle"

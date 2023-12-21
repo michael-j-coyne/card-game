@@ -1,4 +1,4 @@
-class_name State extends Node
+class_name HandState extends Node
 
 var tween: Tween
 var hand: Hand

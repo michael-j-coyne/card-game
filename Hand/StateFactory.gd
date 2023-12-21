@@ -1,11 +1,11 @@
-class_name StateFactory
+class_name HandStateFactory
 
 var states
 
 func _init():
 	states = {
-		"idle": IdleState,
-		"hovered": HoveredState
+		"idle": IdleHandState,
+		"hovered": HoveredHandState
 	}
 
 func get_state(state_name):

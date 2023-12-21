@@ -17,11 +17,11 @@ var rng = RandomNumberGenerator.new()
 var hovered_cards : Array[Card] = []
 var selected_card = null
 
-var state: State
+var state: HandState
 var state_factory
 
 func _ready():
-	state_factory = StateFactory.new()
+	state_factory = HandStateFactory.new()
 	change_state("idle")
 
 func animate(cards_to_animate: Array[Node]):

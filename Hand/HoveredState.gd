@@ -1,4 +1,4 @@
-class_name HoveredState extends State
+class_name HoveredHandState extends HandState
 
 var hovered_card
 
