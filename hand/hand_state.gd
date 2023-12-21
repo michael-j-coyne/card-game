@@ -17,3 +17,9 @@ func handle_mouse_entered_card(_card: Card):
 
 func handle_mouse_exited_card(_card: Card):
 	pass
+
+func handle_card_clicked(_card: Card):
+	pass
+
+func handle_clicked_away():
+	pass

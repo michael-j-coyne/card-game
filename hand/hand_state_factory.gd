@@ -5,7 +5,8 @@ var states
 func _init():
 	states = {
 		"idle": IdleHandState,
-		"hovered": HoveredHandState
+		"hovered": HoveredHandState,
+		"selected": SelectedHandState
 	}
 
 func get_state(state_name):

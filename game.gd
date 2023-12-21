@@ -6,14 +6,13 @@ var rng = RandomNumberGenerator.new()
 
 func _zone_clicked(zone: PlayZone, player: String):
 	var hand = get_node("Hand")
-	var card : Card = hand.get_selected_card()
-	if card:
+	if hand.has_active_card():
+		var card : Card = hand.get_active_card()
 		var new_card := CardScene.instantiate()
-		# use setup here instead of init
 		new_card.setup(card.get_card_name())
 		hand.remove_card(card)
 		zone.add_card(new_card, player)
-
+	
 # temp, testing code
 func generate_random_card() -> Card:
 	var card_name := str(rng.randi_range(1,10))

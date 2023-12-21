@@ -1,6 +1,6 @@
 class_name Card extends TextureRect
 
-signal card_selected(card: Card)
+signal card_clicked(card: Card)
 signal mouse_entered_card(card: Card)
 signal mouse_exited_card(card: Card)
 
@@ -51,7 +51,7 @@ func get_origin_offset():
 
 func _on_gui_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		card_selected.emit(self)
+		card_clicked.emit(self)
 
 func _on_mouse_exited():
 	mouse_exited_card.emit(self)
