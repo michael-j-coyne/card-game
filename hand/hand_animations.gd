@@ -7,7 +7,8 @@ const vertical_spread_curve := \
 const rotation_curve := \
 	preload("res://UI/resources/hand_rotation_curve.tres")
 
-const BASE_ROTATION_DEGREES = 6.5
+# TODO: The rotation should go with the other constants in hand_animations 
+const BASE_ROTATION_DEGREES = 5.5
 const CARD_IDLE_ANIMATION_DURATION_SECONDS = 0.25
 const CARD_HOVERED_ANIMATION_DURATION_SECONDS = 0.1
 const CARD_SPAWN_POS = Vector2(1000, 0)
@@ -29,7 +30,7 @@ static func idle_animation(idle_cards: Array[Node], hand):
 		var pos = HandFuncs.relative_card_default_pos(
 			card.get_index(), hand_size, card.get_base_width())
 			
-		# let make a function for getting the rotation amount so we can unit test it
+		# # TODO: make a function for getting the rotation amount so we can unit test it
 		var rotation_amt := rotation_curve.sample(hand_ratio) * BASE_ROTATION_DEGREES
 		
 		tween.tween_property(card, "position", pos, idle_duration)
