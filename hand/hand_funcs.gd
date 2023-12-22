@@ -7,11 +7,18 @@ const vertical_spread_curve := \
 
 const MAX_SPREAD := 800.0
 const CARD_SPREAD_Y : float = 45.0
+const CARD_OVERLAP = 145
 
 # Compute the horizontal space that the hand will occupy
+# ^^ Upon further examination, I don't think that's what this function
+# is actually doing. TODO: Figure out what this function does
 static func hand_width(num_cards_in_hand: int, card_base_width: float) -> float:
-	const card_overlap = 145
-	var spread = num_cards_in_hand * (card_base_width - card_overlap)
+	var spread = num_cards_in_hand * (card_base_width - CARD_OVERLAP)
+	
+	if spread < 0:
+		push_error("Attempted to return a negative hand width.")
+		return -1
+	
 	return spread if spread < MAX_SPREAD else MAX_SPREAD
 	
 # a 'hand ratio' is a value between 0 and 1 which is related to the position of the card
@@ -35,6 +42,7 @@ static func relative_card_default_pos(card_index: int, num_cards_in_hand: int, c
 	var ratio = hand_ratio(card_index, num_cards_in_hand)
 	var width = hand_width(num_cards_in_hand, card_base_width)
 	
+	# How do I unit test when I'm using a resource here? What if the resource changes?
 	var relative_x = horizontal_spread_curve.sample(ratio) * width
 	var relative_y = vertical_spread_curve.sample(ratio) * CARD_SPREAD_Y * -1
 	
