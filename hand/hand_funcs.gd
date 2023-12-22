@@ -18,7 +18,17 @@ static func hand_width(num_cards_in_hand: int, card_base_width: float) -> float:
 # in the hand. The leftmost card receives a value of 0 and the rightmostcard receives a value
 # of 1, the middle card is 0.5
 static func hand_ratio(card_index: int, hand_size: int) -> float:
+	if hand_size < 0:
+		push_error("hand_size much be an integer >= 0")
+		# returning -1 could potentially cause the game to crash, should I return 0.5 instead?
+		# Or would I like the game to crash?
+		return -1
+	elif card_index < 0 or card_index > hand_size - 1:
+		push_error("The card_index must be in the range [0, hand_size - 1] inclusive")
+		return -1
+
 	if hand_size < 2: return 0.5
+	
 	return float(card_index) / float(hand_size - 1)
 
 static func relative_card_default_pos(card_index: int, num_cards_in_hand: int, card_base_width: float) -> Vector2:
