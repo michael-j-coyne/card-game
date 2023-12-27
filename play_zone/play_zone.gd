@@ -8,7 +8,7 @@ var _cards: Dictionary = {
 	Enums.Player.P2: _p2_cards
 }
 
-func _sum_cards(cards: Array[Card]) -> int:
+static func _sum_cards(cards: Array[Card]) -> int:
 	return cards.reduce(func(acc, card): return acc + card.get_value(), 0)
 
 func get_score() -> Score:
@@ -18,7 +18,11 @@ func get_score() -> Score:
 
 func get_cards(player: Enums.Player) -> Array[Card]:
 	assert(player in _cards)
-	return _cards[player]
+	# TODO: duplicate the cards themselves to prevent someone from modifying
+	# their values
+	return _cards[player].duplicate()
 
 func add_card(card: Card, player: Enums.Player) -> void:
-	get_cards(player).append(card)
+	assert(player in _cards)
+	assert(_cards[player] is Array[Card])
+	_cards[player].append(card)
