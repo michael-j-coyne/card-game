@@ -17,10 +17,10 @@ func get_idle_cards():
 func set_selected_card(card: Card):
 	selected_card = card
 
-func handle_mouse_entered_card(card: Card):
+func handle_mouse_entered_card(_card: Card):
 	return
 
-func handle_mouse_exited_card(card: Card):
+func handle_mouse_exited_card(_card: Card):
 	return
 
 func handle_card_clicked(card: Card):

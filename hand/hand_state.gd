@@ -3,8 +3,8 @@ class_name HandState extends Node
 var hand: Hand
 var state_name: String
 
-func setup(hand: Hand):
-	self.hand = hand
+func setup(hand_ref: Hand):
+	self.hand = hand_ref
 
 func animate_hand():
 	pass

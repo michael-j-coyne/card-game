@@ -8,7 +8,7 @@ func _ready():
 func animate_hand():
 	HandAnimations.hovered_animation(hovered_card, hand)
 	
-func handle_mouse_entered_card(card: Card):
+func handle_mouse_entered_card(_card: Card):
 	return
 	
 func handle_mouse_exited_card(_card: Card):
