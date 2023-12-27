@@ -9,20 +9,19 @@ var hand_ratio_params = ParameterFactory.named_parameters(
 		[2, 6, 0.4],
 		# hand_size < 2
 		[0, 1, 0.5],
+		[1, 4, 1.0 / 3.0],
 
 		# boundary: card_index = hand size - 1
 		[4, 5, 1.0],
 		# boundary: hand size = 2
 		[1, 2, 1.0],
 		
-		# invalid input: card_index > hand_size - 1: should return -1
-		[1, 1, -1.0],
-		# invalid, card_index, should return -1
-		[-1, 5, -1.0],
-		# invalid, card_index > hand_size - 1
-		[3, 3, -1.0],
-		# invalid, hand_size < 0, should return -1
-		[-2, -1, -1.0],
+		# invalid input: card_index > hand_size - 1
+		[1, 1, 0.5],
+		# invalid input: card_index < 0
+		[-1, 5, 0.5],
+		# invalid input: hand_size < 0
+		[0, -1, 0.5]
 		
 ])
 
