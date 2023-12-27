@@ -33,6 +33,10 @@ offset_top = -394.0
 offset_right = 703.0
 offset_bottom = 6.0
 
+[node name="Controllers" type="Node" parent="."]
+
+[node name="Views" type="Node" parent="."]
+
 [connection signal="gui_input" from="GameBackdrop" to="Hand" method="_on_game_backdrop_input"]
 [connection signal="p1_zone_clicked" from="PlayZone" to="." method="_p1_zone_clicked"]
 [connection signal="p2_zone_clicked" from="PlayZone" to="." method="_p2_zone_clicked"]
