@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dw86m8e7hpr6d"]
+[gd_scene load_steps=4 format=3 uid="uid://bitm06etar1c"]
 
 [ext_resource type="Script" path="res://play_zone/play_zone_view.gd" id="1_5ivus"]
+[ext_resource type="Texture2D" uid="uid://bu817hne3gvem" path="res://assets/red_rectangle.svg.png" id="2_l8h20"]
 [ext_resource type="Texture2D" uid="uid://stf4xq7ijxhk" path="res://assets/grey-rectangle.jpeg" id="2_ux3rs"]
 
 [node name="PlayZone" type="VBoxContainer"]
@@ -9,18 +10,28 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -200.0
-offset_right = 150.0
-offset_bottom = 200.0
+offset_left = -303.0
+offset_top = -493.0
+offset_right = 115.0
+offset_bottom = 202.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 15
 script = ExtResource("1_5ivus")
+metadata/_edit_group_ = true
 
-[node name="P2MarginContainer" type="MarginContainer" parent="."]
+[node name="P2Parent" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RedBg" type="TextureRect" parent="P2Parent"]
+layout_mode = 2
+texture = ExtResource("2_l8h20")
+expand_mode = 1
+
+[node name="P2MarginContainer" type="MarginContainer" parent="P2Parent"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 10
@@ -28,19 +39,27 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="PlayZoneSprite" type="Sprite2D" parent="P2MarginContainer"]
-show_behind_parent = true
-scale = Vector2(0.167, 0.225)
+[node name="TextureRect" type="TextureRect" parent="P2Parent/P2MarginContainer"]
+layout_mode = 2
 texture = ExtResource("2_ux3rs")
-centered = false
+expand_mode = 1
 
-[node name="Player2Grid" type="GridContainer" parent="P2MarginContainer"]
+[node name="Player2Grid" type="GridContainer" parent="P2Parent/P2MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/h_separation = 6
 columns = 2
 
-[node name="P1MarginContainer" type="MarginContainer" parent="."]
+[node name="P1Parent" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RedBg" type="TextureRect" parent="P1Parent"]
+layout_mode = 2
+texture = ExtResource("2_l8h20")
+expand_mode = 1
+
+[node name="P1MarginContainer" type="MarginContainer" parent="P1Parent"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 10
@@ -48,17 +67,16 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="PlayZoneSprite" type="Sprite2D" parent="P1MarginContainer"]
-show_behind_parent = true
-scale = Vector2(0.167, 0.225)
+[node name="TextureRect" type="TextureRect" parent="P1Parent/P1MarginContainer"]
+layout_mode = 2
 texture = ExtResource("2_ux3rs")
-centered = false
+expand_mode = 1
 
-[node name="Player1Grid" type="GridContainer" parent="P1MarginContainer"]
+[node name="Player1Grid" type="GridContainer" parent="P1Parent/P1MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/h_separation = 6
 columns = 2
 
-[connection signal="gui_input" from="P2MarginContainer" to="." method="_on_p2_zone_input"]
-[connection signal="gui_input" from="P1MarginContainer" to="." method="_on_p1_zone_input"]
+[connection signal="gui_input" from="P2Parent/P2MarginContainer" to="." method="_on_p2_zone_input"]
+[connection signal="gui_input" from="P1Parent/P1MarginContainer" to="." method="_on_p1_zone_input"]

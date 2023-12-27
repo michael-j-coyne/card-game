@@ -5,8 +5,8 @@ signal p2_zone_clicked(zone: PlayZoneView)
 
 func get_grid(player: Enums.Player) -> GridContainer:
 	if player == Enums.Player.P1:
-		return get_node("P1MarginContainer/Player1Grid")
-	return get_node("P2MarginContainer/Player2Grid")
+		return get_node("P1Parent/P1MarginContainer/Player1Grid")
+	return get_node("P2Parent/P2MarginContainer/Player2Grid")
 	
 func scale_card(card: Card):
 	card["custom_minimum_size"] = Vector2(50, 75)
