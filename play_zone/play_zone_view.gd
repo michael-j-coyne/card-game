@@ -21,9 +21,7 @@ func add_card(card: Card, player: String):
 	scale_card(card)
 	target_grid.add_child(card)
 	
-func get_score(player: String):
-	var cards = get_grid(player).get_children()
-	return cards.reduce(func(acc, card): return acc + card.get_value(), 0)
+
 
 func _on_p1_zone_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
