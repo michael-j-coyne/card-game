@@ -9,6 +9,9 @@ func before_each():
 	card = Card.new()
 	card.size = Vector2(base_width, base_height)
 	card.scale = scale
+	
+func after_each():
+	card.free()
 
 func test_get_width():
 	assert_eq(card.get_width(), 200.0)
