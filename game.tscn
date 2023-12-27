@@ -12,6 +12,7 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 mouse_filter = 1
 color = Color(0.643137, 1, 0.996078, 1)
+metadata/_edit_lock_ = true
 
 [node name="Hand" parent="." instance=ExtResource("2_ehngj")]
 
@@ -19,8 +20,42 @@ color = Color(0.643137, 1, 0.996078, 1)
 
 [node name="Views" type="Node" parent="."]
 
-[node name="PlayZone" parent="." instance=ExtResource("3_d71sj")]
+[node name="PlayZone" parent="Views" instance=ExtResource("3_d71sj")]
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 1340.0
+offset_top = 89.0
+offset_right = 1740.0
+offset_bottom = 489.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="PlayZone2" parent="Views" instance=ExtResource("3_d71sj")]
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 727.0
+offset_top = 86.0
+offset_right = 1127.0
+offset_bottom = 486.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="PlayZone3" parent="Views" instance=ExtResource("3_d71sj")]
+offset_left = -882.0
+offset_top = -452.0
+offset_right = -482.0
+offset_bottom = -52.0
 
 [connection signal="gui_input" from="GameBackdrop" to="Hand" method="_on_game_backdrop_input"]
-[connection signal="p1_zone_clicked" from="PlayZone" to="." method="_p1_zone_clicked"]
-[connection signal="p2_zone_clicked" from="PlayZone" to="." method="_p2_zone_clicked"]
+[connection signal="p1_zone_clicked" from="Views/PlayZone" to="." method="_p1_zone_clicked"]
+[connection signal="p2_zone_clicked" from="Views/PlayZone" to="." method="_p2_zone_clicked"]
+[connection signal="p1_zone_clicked" from="Views/PlayZone2" to="." method="_p1_zone_clicked"]
+[connection signal="p2_zone_clicked" from="Views/PlayZone2" to="." method="_p2_zone_clicked"]
+[connection signal="p1_zone_clicked" from="Views/PlayZone3" to="." method="_p1_zone_clicked"]
+[connection signal="p2_zone_clicked" from="Views/PlayZone3" to="." method="_p2_zone_clicked"]
