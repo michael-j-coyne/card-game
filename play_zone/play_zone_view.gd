@@ -1,7 +1,7 @@
-class_name PlayZone extends VBoxContainer
+class_name PlayZoneView extends VBoxContainer
 
-signal p1_zone_clicked(zone: PlayZone)
-signal p2_zone_clicked(zone: PlayZone)
+signal p1_zone_clicked(zone: PlayZoneView)
+signal p2_zone_clicked(zone: PlayZoneView)
 
 func get_grid(player: Enums.Player) -> GridContainer:
 	if player == Enums.Player.P1:

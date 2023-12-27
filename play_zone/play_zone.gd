@@ -1,4 +1,4 @@
-extends Node
+class_name PlayZone extends Node
 
 var _p1_cards: Array[Card] = []
 var _p2_cards: Array[Card] = []
