@@ -38,3 +38,7 @@ func _p1_zone_clicked(zone: PlayZone):
 func _p2_zone_clicked(zone: PlayZone):
 	_zone_clicked(zone, Enums.Player.P2)
 	
+func _on_game_backdrop_gui_input(event):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		get_node("Hand").change_state("idle")
+		get_node("Hand2").change_state("idle")

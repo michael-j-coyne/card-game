@@ -64,8 +64,3 @@ func remove_card(card: Card):
 	change_state("idle")
 	
 	card.queue_free()
-
-# I'm not sure if this solution will work as I add more stuff.
-func _on_game_backdrop_input(event):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		state.handle_clicked_away()
