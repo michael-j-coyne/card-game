@@ -13,8 +13,8 @@ static func _sum_cards(cards: Array[Card]) -> int:
 
 func get_score() -> Score:
 	return Score.new(
-		_sum_cards(get_cards(Enums.Player.P1)),
-		_sum_cards(get_cards(Enums.Player.P2)))
+		PlayZone._sum_cards(get_cards(Enums.Player.P1)),
+		PlayZone._sum_cards(get_cards(Enums.Player.P2)))
 
 func get_cards(player: Enums.Player) -> Array[Card]:
 	assert(player in _cards)
