@@ -53,6 +53,14 @@ offset_top = -452.0
 offset_right = -482.0
 offset_bottom = -52.0
 
+[node name="CalculateWinnerButton" type="Button" parent="."]
+offset_left = 22.0
+offset_top = 563.0
+offset_right = 142.0
+offset_bottom = 668.0
+text = "Calculate
+Winner"
+
 [connection signal="gui_input" from="GameBackdrop" to="." method="_on_game_backdrop_gui_input"]
 [connection signal="p1_zone_clicked" from="PlayZone" to="." method="_p1_zone_clicked"]
 [connection signal="p2_zone_clicked" from="PlayZone" to="." method="_p2_zone_clicked"]
@@ -60,3 +68,4 @@ offset_bottom = -52.0
 [connection signal="p2_zone_clicked" from="PlayZone2" to="." method="_p2_zone_clicked"]
 [connection signal="p1_zone_clicked" from="PlayZone3" to="." method="_p1_zone_clicked"]
 [connection signal="p2_zone_clicked" from="PlayZone3" to="." method="_p2_zone_clicked"]
+[connection signal="pressed" from="CalculateWinnerButton" to="." method="_on_calculate_winner_button_pressed"]
