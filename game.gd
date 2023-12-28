@@ -4,7 +4,7 @@ const CardScene = preload('res://Card.tscn')
 
 var rng = RandomNumberGenerator.new()
 
-func _zone_clicked(zone: PlayZoneView, player: Enums.Player):
+func _zone_clicked(zone: PlayZone, player: Enums.Player):
 	var hand = get_node("Hand")
 	if hand.has_active_card():
 		var card : Card = hand.get_active_card()
@@ -27,9 +27,9 @@ func _input(event):
 		var card_to_add = generate_random_card()
 		hand.add_card(card_to_add)
 
-func _p1_zone_clicked(zone: PlayZoneView):
+func _p1_zone_clicked(zone: PlayZone):
 	_zone_clicked(zone, Enums.Player.P1)
 
-func _p2_zone_clicked(zone: PlayZoneView):
+func _p2_zone_clicked(zone: PlayZone):
 	_zone_clicked(zone, Enums.Player.P2)
 	
