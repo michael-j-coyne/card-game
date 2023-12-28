@@ -4,6 +4,26 @@ const CardScene = preload('res://Card.tscn')
 
 var rng = RandomNumberGenerator.new()
 
+static func _compute_winner(s: Score) -> Enums.Winner:
+	if s.p1 > s.p2:
+		return Enums.Winner.P1
+	elif s.p1 < s.p2:
+		return Enums.Winner.P2
+	return Enums.Winner.TIE
+	
+static func _compute_zone_scores(zones: Array[PlayZone]) -> Array[Score]:
+	var result: Array[Score] = []
+	result.assign(zones.map(func(z): return z.get_score()))
+	return result
+
+static func _compute_num_wins(zone_scores: Array[Score]) -> Score:
+	var zone_winners = zone_scores.map(func(s): return Game._compute_winner(s))
+	var p1_wins = zone_winners.reduce(
+		func(acc, w): return acc + 1 if w == Enums.Winner.P1 else acc, 0)
+	var p2_wins = zone_winners.reduce(
+		func(acc, w): return acc +1 if w == Enums.Winner.P2 else acc, 0)
+	return Score.new(p1_wins, p2_wins)
+
 func _zone_clicked(zone: PlayZone, player: Enums.Player):
 	var hand = get_node("Hand") if player == Enums.Player.P1 else get_node("Hand2")
 	
@@ -20,6 +40,16 @@ func _generate_random_card() -> Card:
 	var card := CardScene.instantiate()
 	card.setup(card_name)
 	return card
+	
+func _get_zones() -> Array[PlayZone]:
+	return [get_node("PlayZone"), get_node("PlayZone2"), get_node("PlayZone3")]
+
+func _get_zone_scores() -> Array[Score]:
+	return Game._compute_zone_scores(_get_zones())
+
+func _get_winner() -> Enums.Winner:
+	var zone_wins = Game._compute_num_wins(_get_zone_scores())
+	return Game._compute_winner(zone_wins)
 
 # temp, testing code
 func _input(event):
@@ -36,37 +66,12 @@ func _p1_zone_clicked(zone: PlayZone):
 
 func _p2_zone_clicked(zone: PlayZone):
 	_zone_clicked(zone, Enums.Player.P2)
-	
-func _get_zones() -> Array[PlayZone]:
-	return [get_node("PlayZone"), get_node("PlayZone2"), get_node("PlayZone3")]
 
-static func _compute_winner(s: Score) -> Enums.Winner:
-	if s.p1 > s.p2:
-		return Enums.Winner.P1
-	elif s.p1 < s.p2:
-		return Enums.Winner.P2
-	return Enums.Winner.TIE
-	
-static func _compute_zone_scores(zones: Array[PlayZone]) -> Array[Score]:
-	var result: Array[Score] = []
-	result.assign(zones.map(func(z): return z.get_score()))
-	return result
-
-func _get_zone_scores() -> Array[Score]:
-	return Game._compute_zone_scores(_get_zones())
-
-static func _compute_num_wins(zone_scores: Array[Score]) -> Score:
-	var zone_winners = zone_scores.map(func(s): return Game._compute_winner(s))
-	var p1_wins = zone_winners.reduce(
-		func(acc, w): return acc + 1 if w == Enums.Winner.P1 else acc, 0)
-	var p2_wins = zone_winners.reduce(
-		func(acc, w): return acc +1 if w == Enums.Winner.P2 else acc, 0)
-	return Score.new(p1_wins, p2_wins)
-
-func _get_winner() -> Enums.Winner:
-	var zone_wins = Game._compute_num_wins(_get_zone_scores())
-	return Game._compute_winner(zone_wins)
-
+func _on_game_backdrop_gui_input(event):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		get_node("Hand").change_state("idle")
+		get_node("Hand2").change_state("idle")
+		
 func _on_calculate_winner_button_pressed():
 	var winner = _get_winner()
 	
@@ -78,8 +83,3 @@ func _on_calculate_winner_button_pressed():
 		print("Tie!")
 		
 	get_node("CalculateWinnerButton").release_focus()
-
-func _on_game_backdrop_gui_input(event):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		get_node("Hand").change_state("idle")
-		get_node("Hand2").change_state("idle")
