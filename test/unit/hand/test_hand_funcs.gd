@@ -28,3 +28,7 @@ var hand_ratio_params = ParameterFactory.named_parameters(
 func test_hand_ratio(params = use_parameters(hand_ratio_params)):
 	var result = HandFuncs.hand_ratio(params.card_index, params.hand_size)
 	assert_eq(result, params.expected)
+
+func test_hand_width():
+	var result = HandFuncs.hand_width(5, 100, 30)
+	assert_eq(result, 380.0)
