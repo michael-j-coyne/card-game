@@ -15,7 +15,7 @@ func _zone_clicked(zone: PlayZone, player: Enums.Player):
 		zone.add_card(new_card, player)
 		
 # temp, testing code
-func generate_random_card() -> Card:
+func _generate_random_card() -> Card:
 	var card_name := str(rng.randi_range(1,10))
 	var card := CardScene.instantiate()
 	card.setup(card_name)
@@ -26,8 +26,8 @@ func _input(event):
 	var hand = get_node("Hand")
 	var hand2 = get_node("Hand2")
 	if event.is_action_pressed("ui_accept"):
-		var card_to_add = generate_random_card()
-		var second_card = generate_random_card()
+		var card_to_add = _generate_random_card()
+		var second_card = _generate_random_card()
 		hand.add_card(card_to_add)
 		hand2.add_card(second_card)
 
@@ -40,7 +40,7 @@ func _p2_zone_clicked(zone: PlayZone):
 func _get_zones() -> Array[PlayZone]:
 	return [get_node("PlayZone"), get_node("PlayZone2"), get_node("PlayZone3")]
 
-static func _winner(s: Score) -> Enums.Winner:
+static func _compute_winner(s: Score) -> Enums.Winner:
 	if s.p1 > s.p2:
 		return Enums.Winner.P1
 	elif s.p1 < s.p2:
@@ -55,20 +55,20 @@ static func _compute_zone_scores(zones: Array[PlayZone]) -> Array[Score]:
 func _get_zone_scores() -> Array[Score]:
 	return Game._compute_zone_scores(_get_zones())
 
-static func _num_wins(zone_scores: Array[Score]) -> Score:
-	var zone_winners = zone_scores.map(func(s): return Game._winner(s))
+static func _compute_num_wins(zone_scores: Array[Score]) -> Score:
+	var zone_winners = zone_scores.map(func(s): return Game._compute_winner(s))
 	var p1_wins = zone_winners.reduce(
 		func(acc, w): return acc + 1 if w == Enums.Winner.P1 else acc, 0)
 	var p2_wins = zone_winners.reduce(
 		func(acc, w): return acc +1 if w == Enums.Winner.P2 else acc, 0)
 	return Score.new(p1_wins, p2_wins)
 
-func compute_winner() -> Enums.Winner:
-	var zone_wins = Game._num_wins(_get_zone_scores())
-	return Game._winner(zone_wins)
+func _get_winner() -> Enums.Winner:
+	var zone_wins = Game._compute_num_wins(_get_zone_scores())
+	return Game._compute_winner(zone_wins)
 
 func _on_calculate_winner_button_pressed():
-	var winner = compute_winner()
+	var winner = _get_winner()
 	
 	if winner == Enums.Winner.P1:
 		print("P1 won!")
