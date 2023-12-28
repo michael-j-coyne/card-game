@@ -18,10 +18,8 @@ static func _compute_zone_scores(zones: Array[PlayZone]) -> Array[Score]:
 
 static func _compute_num_wins(zone_scores: Array[Score]) -> Score:
 	var zone_winners = zone_scores.map(func(s): return Game._compute_winner(s))
-	var p1_wins = zone_winners.reduce(
-		func(acc, w): return acc + 1 if w == Enums.Winner.P1 else acc, 0)
-	var p2_wins = zone_winners.reduce(
-		func(acc, w): return acc +1 if w == Enums.Winner.P2 else acc, 0)
+	var p1_wins = zone_winners.count(Enums.Winner.P1)
+	var p2_wins = zone_winners.count(Enums.Winner.P2)
 	return Score.new(p1_wins, p2_wins)
 
 func _zone_clicked(zone: PlayZone, player: Enums.Player):
