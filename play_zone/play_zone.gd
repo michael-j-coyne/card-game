@@ -23,20 +23,34 @@ func _set_card_default_size(card: Card):
 	# TODO: const for this value
 	card["custom_minimum_size"] = Vector2(50, 75)
 
+# Note: this function depends on the entire scene, as we are getting the grid
 func _add_card_to_grid(card: Card, player: Enums.Player):
 	var target_grid := _get_grid(player)
 	_set_card_default_size(card)
 	target_grid.add_child(card)
 
+func _remove_card_from_grid(card: Card, player: Enums.Player):
+	assert(card.get_parent() == _get_grid(player))
+	_get_grid(player).remove_child(card)
+	card.queue_free()
+	
 func _add_card_to_model(card: Card, player: Enums.Player) -> void:
 	assert(player in _cards)
 	assert(_cards[player] is Array[Card])
 	_cards[player].append(card)
 
+func _remove_card_from_model(card: Card, player: Enums.Player):
+	_cards[player].erase(card)
+
 func add_card(card: Card, player: Enums.Player) -> void:
 	_add_card_to_model(card, player)
 	_add_card_to_grid(card, player)
 
+func remove_card(card: Card, player: Enums.Player) -> void:
+	_remove_card_from_model(card, player)
+	_remove_card_from_grid(card, player)
+
+# We return cards from the card arrays, as these arrays are the "source of truth"
 func get_cards(player: Enums.Player) -> Array[Card]:
 	assert(player in _cards)
 	# TODO: duplicate the cards themselves to prevent someone from modifying
