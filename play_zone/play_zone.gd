@@ -11,6 +11,9 @@ var _cards: Dictionary = {
 signal p1_zone_clicked(zone: PlayZone)
 signal p2_zone_clicked(zone: PlayZone)
 
+static func _sum_cards(cards: Array[Card]) -> int:
+	return cards.reduce(func(acc, card): return acc + card.get_value(), 0)
+
 func _get_grid(player: Enums.Player) -> GridContainer:
 	if player == Enums.Player.P1:
 		return get_node("P1Parent/P1MarginContainer/Player1Grid")
@@ -33,9 +36,6 @@ func _add_card_to_model(card: Card, player: Enums.Player) -> void:
 func add_card(card: Card, player: Enums.Player) -> void:
 	_add_card_to_model(card, player)
 	_add_card_to_grid(card, player)
-
-static func _sum_cards(cards: Array[Card]) -> int:
-	return cards.reduce(func(acc, card): return acc + card.get_value(), 0)
 
 func get_cards(player: Enums.Player) -> Array[Card]:
 	assert(player in _cards)
