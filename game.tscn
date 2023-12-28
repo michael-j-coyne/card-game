@@ -15,6 +15,11 @@ color = Color(0.643137, 1, 0.996078, 1)
 metadata/_edit_lock_ = true
 
 [node name="Hand" parent="." instance=ExtResource("2_ehngj")]
+metadata/_edit_lock_ = true
+
+[node name="Hand2" parent="." instance=ExtResource("2_ehngj")]
+position = Vector2(960, 500)
+metadata/_edit_lock_ = true
 
 [node name="PlayZone" parent="." instance=ExtResource("3_d71sj")]
 anchors_preset = 0
