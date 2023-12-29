@@ -1,8 +1,18 @@
 class_name Game extends Node
 
 const CardScene = preload('res://card.tscn')
+const HandScene = preload('res://hand/hand.tscn')
+const PlayZoneScene = preload('res://play_zone/play_zone.tscn')
+
+const NUM_ZONES = 3
 
 var rng = RandomNumberGenerator.new()
+var p1_hand
+var p2_hand
+var _play_zones: Array[PlayZone]
+
+func _enter_tree():
+	new_game()
 
 static func _compute_winner(s: Score) -> Enums.Winner:
 	if s.p1 > s.p2:
@@ -22,8 +32,47 @@ static func _compute_num_wins(zone_scores: Array[Score]) -> Score:
 	var p2_wins = zone_winners.count(Enums.Winner.P2)
 	return Score.new(p1_wins, p2_wins)
 
+func delete_zone_from_view(zone: PlayZone):
+	remove_child(zone)
+	zone.queue_free()
+	
+func clear_zone_model():
+	_play_zones = []
+	
+func cleanup():
+	for zone in _get_zones():
+		delete_zone_from_view(zone)
+	
+	clear_zone_model()
+	
+	remove_child(p1_hand)
+	p1_hand.queue_free()
+	
+	remove_child(p2_hand)
+	p2_hand.queue_free()
+	
+func new_game():
+	p1_hand = HandScene.instantiate()
+	p2_hand = HandScene.instantiate()
+	p2_hand.global_position = Vector2(960, 500)
+	
+	add_child(p1_hand)
+	add_child(p2_hand)
+	
+	const zone_positions = [Vector2(0, 0), Vector2(550, 0), Vector2(1100, 0)]
+	
+	for i in NUM_ZONES:
+		var zone = PlayZoneScene.instantiate()
+		zone.set_size(Vector2(500, 500))
+		zone.set_global_position(zone_positions[i])
+		zone.p1_zone_clicked.connect(_p1_zone_clicked)
+		zone.p2_zone_clicked.connect(_p2_zone_clicked)
+		_get_zones().append(zone)
+		add_child(zone)
+	
+
 func _zone_clicked(zone: PlayZone, player: Enums.Player):
-	var hand = get_node("Hand") if player == Enums.Player.P1 else get_node("Hand2")
+	var hand = p1_hand if player == Enums.Player.P1 else p2_hand
 	
 	if hand.has_active_card():
 		var card : Card = hand.get_active_card()
@@ -40,7 +89,7 @@ func _generate_random_card() -> Card:
 	return card
 	
 func _get_zones() -> Array[PlayZone]:
-	return [get_node("PlayZone"), get_node("PlayZone2"), get_node("PlayZone3")]
+	return _play_zones
 
 func _get_zone_scores() -> Array[Score]:
 	return Game._compute_zone_scores(_get_zones())
@@ -51,13 +100,15 @@ func _get_winner() -> Enums.Winner:
 
 # temp, testing code
 func _input(event):
-	var hand = get_node("Hand")
-	var hand2 = get_node("Hand2")
 	if event.is_action_pressed("ui_accept"):
 		var card_to_add = _generate_random_card()
 		var second_card = _generate_random_card()
-		hand.add_card(card_to_add)
-		hand2.add_card(second_card)
+		p1_hand.add_card(card_to_add)
+		p2_hand.add_card(second_card)
+	elif event.is_action_pressed("ui_text_backspace"):
+		# testing code only
+		cleanup()
+		new_game()
 
 func _p1_zone_clicked(zone: PlayZone):
 	_zone_clicked(zone, Enums.Player.P1)
@@ -67,8 +118,10 @@ func _p2_zone_clicked(zone: PlayZone):
 
 func _on_game_backdrop_gui_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		get_node("Hand").change_state("idle")
-		get_node("Hand2").change_state("idle")
+		if p1_hand:
+			p1_hand.change_state("idle")
+		if p2_hand:
+			p2_hand.change_state("idle")
 		
 func _on_calculate_winner_button_pressed():
 	var winner = _get_winner()
