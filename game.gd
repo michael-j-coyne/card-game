@@ -7,12 +7,10 @@ const PlayZoneScene = preload('res://play_zone/play_zone.tscn')
 const NUM_ZONES = 3
 
 var rng = RandomNumberGenerator.new()
-var p1_hand
-var p2_hand
+var p1_hand: Hand
+# TEMP
+var p2_hand: Hand
 var _play_zones: Array[PlayZone]
-
-func _enter_tree():
-	new_game()
 
 static func _compute_winner(s: Score) -> Enums.Winner:
 	if s.p1 > s.p2:
@@ -32,6 +30,9 @@ static func _compute_num_wins(zone_scores: Array[Score]) -> Score:
 	var p2_wins = zone_winners.count(Enums.Winner.P2)
 	return Score.new(p1_wins, p2_wins)
 
+func _enter_tree():
+	new_game()
+
 func delete_zone_from_view(zone: PlayZone):
 	remove_child(zone)
 	zone.queue_free()
@@ -48,30 +49,39 @@ func cleanup():
 	remove_child(p1_hand)
 	p1_hand.queue_free()
 	
+	# TEMP
 	remove_child(p2_hand)
 	p2_hand.queue_free()
 	
 func new_game():
 	p1_hand = HandScene.instantiate()
+	add_child(p1_hand)
+	
+	# TEMP
 	p2_hand = HandScene.instantiate()
 	p2_hand.global_position = Vector2(960, 500)
-	
-	add_child(p1_hand)
 	add_child(p2_hand)
 	
+	# TODO: don't put this here!!
 	const zone_positions = [Vector2(0, 0), Vector2(550, 0), Vector2(1100, 0)]
 	
 	for i in NUM_ZONES:
 		var zone = PlayZoneScene.instantiate()
+		# TODO: store this in a constant, no magic numbers
 		zone.set_size(Vector2(500, 500))
+		# TODO: we should get zone_position from a func zone_positions()
+		# as the positions depend on the size of the zone, the number of zones, and the size of
+		# the screen
 		zone.set_global_position(zone_positions[i])
 		zone.p1_zone_clicked.connect(_p1_zone_clicked)
 		zone.p2_zone_clicked.connect(_p2_zone_clicked)
+		# TODO: create func to add zone to the game, _get_zones().append is no good
 		_get_zones().append(zone)
 		add_child(zone)
 	
 
 func _zone_clicked(zone: PlayZone, player: Enums.Player):
+	# TEMP
 	var hand = p1_hand if player == Enums.Player.P1 else p2_hand
 	
 	if hand.has_active_card():
@@ -104,6 +114,7 @@ func _input(event):
 		var card_to_add = _generate_random_card()
 		var second_card = _generate_random_card()
 		p1_hand.add_card(card_to_add)
+		# TEMP
 		p2_hand.add_card(second_card)
 	elif event.is_action_pressed("ui_text_backspace"):
 		# testing code only
@@ -118,10 +129,10 @@ func _p2_zone_clicked(zone: PlayZone):
 
 func _on_game_backdrop_gui_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		if p1_hand:
-			p1_hand.change_state("idle")
-		if p2_hand:
-			p2_hand.change_state("idle")
+		if p1_hand: p1_hand.change_state("idle")
+		# TEMP, REMOVE P2 HAND LOGIC
+		if p2_hand: p2_hand.change_state("idle")
+			
 		
 func _on_calculate_winner_button_pressed():
 	var winner = _get_winner()
