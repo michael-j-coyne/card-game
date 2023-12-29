@@ -1,8 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dxf6aoalbb0ip"]
+[gd_scene load_steps=2 format=3 uid="uid://dxf6aoalbb0ip"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_omsa2"]
-[ext_resource type="PackedScene" uid="uid://bcyy6s0bdd2ri" path="res://hand/hand.tscn" id="2_ehngj"]
-[ext_resource type="PackedScene" uid="uid://bitm06etar1c" path="res://play_zone/play_zone.tscn" id="3_d71sj"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_omsa2")
@@ -14,45 +12,6 @@ mouse_filter = 1
 color = Color(0.643137, 1, 0.996078, 1)
 metadata/_edit_lock_ = true
 
-[node name="Hand" parent="." instance=ExtResource("2_ehngj")]
-metadata/_edit_lock_ = true
-
-[node name="Hand2" parent="." instance=ExtResource("2_ehngj")]
-position = Vector2(960, 500)
-metadata/_edit_lock_ = true
-
-[node name="PlayZone" parent="." instance=ExtResource("3_d71sj")]
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 1340.0
-offset_top = 89.0
-offset_right = 1740.0
-offset_bottom = 489.0
-grow_horizontal = 1
-grow_vertical = 1
-
-[node name="PlayZone2" parent="." instance=ExtResource("3_d71sj")]
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 727.0
-offset_top = 86.0
-offset_right = 1127.0
-offset_bottom = 486.0
-grow_horizontal = 1
-grow_vertical = 1
-
-[node name="PlayZone3" parent="." instance=ExtResource("3_d71sj")]
-offset_left = -882.0
-offset_top = -452.0
-offset_right = -482.0
-offset_bottom = -52.0
-
 [node name="CalculateWinnerButton" type="Button" parent="."]
 offset_left = 22.0
 offset_top = 563.0
@@ -62,10 +21,4 @@ text = "Calculate
 Winner"
 
 [connection signal="gui_input" from="GameBackdrop" to="." method="_on_game_backdrop_gui_input"]
-[connection signal="p1_zone_clicked" from="PlayZone" to="." method="_p1_zone_clicked"]
-[connection signal="p2_zone_clicked" from="PlayZone" to="." method="_p2_zone_clicked"]
-[connection signal="p1_zone_clicked" from="PlayZone2" to="." method="_p1_zone_clicked"]
-[connection signal="p2_zone_clicked" from="PlayZone2" to="." method="_p2_zone_clicked"]
-[connection signal="p1_zone_clicked" from="PlayZone3" to="." method="_p1_zone_clicked"]
-[connection signal="p2_zone_clicked" from="PlayZone3" to="." method="_p2_zone_clicked"]
 [connection signal="pressed" from="CalculateWinnerButton" to="." method="_on_calculate_winner_button_pressed"]
