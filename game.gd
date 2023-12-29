@@ -1,6 +1,6 @@
 class_name Game extends Node
 
-const CardScene = preload('res://Card.tscn')
+const CardScene = preload('res://card.tscn')
 
 var rng = RandomNumberGenerator.new()
 
