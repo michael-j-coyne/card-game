@@ -5,12 +5,14 @@ const HandScene = preload('res://hand/hand.tscn')
 const PlayZoneScene = preload('res://play_zone/play_zone.tscn')
 
 const NUM_ZONES = 3
+const SCREEN_SIZE = Vector2i(1920, 1080)
 
 var rng = RandomNumberGenerator.new()
 var p1_hand: Hand
 # TEMP
 var p2_hand: Hand
 var _play_zones: Array[PlayZone]
+@onready var zone_grid: GridContainer = get_node("ZoneMarginContainer/ZoneGrid")
 
 static func _compute_winner(s: Score) -> Enums.Winner:
 	if s.p1 > s.p2:
@@ -30,11 +32,14 @@ static func _compute_num_wins(zone_scores: Array[Score]) -> Score:
 	var p2_wins = zone_winners.count(Enums.Winner.P2)
 	return Score.new(p1_wins, p2_wins)
 
-func _enter_tree():
+func _ready():
 	new_game()
 
+func _enter_tree():
+	get_tree().root.content_scale_size = SCREEN_SIZE
+
 func delete_zone_from_view(zone: PlayZone):
-	remove_child(zone)
+	zone_grid.remove_child(zone)
 	zone.queue_free()
 	
 func clear_zone_model():
@@ -52,7 +57,7 @@ func cleanup():
 	# TEMP
 	remove_child(p2_hand)
 	p2_hand.queue_free()
-	
+
 func new_game():
 	p1_hand = HandScene.instantiate()
 	add_child(p1_hand)
@@ -62,22 +67,11 @@ func new_game():
 	p2_hand.global_position = Vector2(960, 500)
 	add_child(p2_hand)
 	
-	# TODO: don't put this here!!
-	const zone_positions = [Vector2(0, 0), Vector2(550, 0), Vector2(1100, 0)]
-	
 	for i in NUM_ZONES:
 		var zone = PlayZoneScene.instantiate()
-		# TODO: store this in a constant, no magic numbers
-		zone.set_size(Vector2(500, 500))
-		# TODO: we should get zone_position from a func zone_positions()
-		# as the positions depend on the size of the zone, the number of zones, and the size of
-		# the screen
-		zone.set_global_position(zone_positions[i])
 		zone.p1_zone_clicked.connect(_p1_zone_clicked)
 		zone.p2_zone_clicked.connect(_p2_zone_clicked)
-		# TODO: create func to add zone to the game, _get_zones().append is no good
-		_get_zones().append(zone)
-		add_child(zone)
+		_add_zone(zone)
 	
 
 func _zone_clicked(zone: PlayZone, player: Enums.Player):
@@ -100,6 +94,10 @@ func _generate_random_card() -> Card:
 	
 func _get_zones() -> Array[PlayZone]:
 	return _play_zones
+	
+func _add_zone(zone: PlayZone) -> void:
+	_get_zones().append(zone)
+	zone_grid.add_child(zone)
 
 func _get_zone_scores() -> Array[Score]:
 	return Game._compute_zone_scores(_get_zones())
