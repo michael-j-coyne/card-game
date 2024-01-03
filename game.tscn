@@ -20,5 +20,18 @@ offset_bottom = 668.0
 text = "Calculate
 Winner"
 
+[node name="ZoneMarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(1920, 540)
+offset_right = 20.0
+offset_bottom = 20.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ZoneGrid" type="GridContainer" parent="ZoneMarginContainer"]
+layout_mode = 2
+columns = 3
+
 [connection signal="gui_input" from="GameBackdrop" to="." method="_on_game_backdrop_gui_input"]
 [connection signal="pressed" from="CalculateWinnerButton" to="." method="_on_calculate_winner_button_pressed"]
